@@ -108,9 +108,7 @@ The following utilities are planned for future releases.
 - Empty directory cleanup
 - Directory tree generation
 - Disk usage analysis
-- File metadata inspection
-- Batch file operations
-- Compression and extraction utilities
+
 
 ---
 
