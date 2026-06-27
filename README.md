@@ -122,7 +122,6 @@ FileKit/
 │   └── fs/
 │       ├── FileSystem.java
 │       ├── FileSegregator.java
-│       ├── FileSize.java
 │       └── ...
 ├── FileKit.jar
 └── README.md
@@ -140,3 +139,20 @@ FileKit/
 ## License
 
 This project is licensed under the GNU GENERAL PUBLIC LICENSE.
+
+
+---
+
+## Recompiling Binaries
+
+```bash
+jar cfe FileKit.jar com.fs.FileSystem com 
+```
+
+```
+├── com/
+│   └── fs/
+│       ├── FileSystem.java
+│       ├── FileSegregator.java
+│       └── ...
+```
