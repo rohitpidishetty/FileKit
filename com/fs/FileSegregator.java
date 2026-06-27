@@ -72,8 +72,9 @@ public class FileSegregator {
         FileInputStream fis = new FileInputStream(file);
         FileOutputStream fos = new FileOutputStream(new File(copyTo));
       ) {
-        byte[] byteStream = fis.readAllBytes();
-        fos.write(byteStream);
+        byte[] chunk = new byte[4096]; // 4 KB will be read per-loop
+        int bytesRead;
+        while ((bytesRead = fis.read(chunk)) != -1) fos.write(chunk);
       } catch (Exception e) {
         System.out.println(e.getMessage());
         System.exit(1);
