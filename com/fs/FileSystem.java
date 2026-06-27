@@ -146,9 +146,9 @@ public class FileSystem {
           java FileSystem -seg <file-path-from> <file-path-to>
 
       Examples:
-          java FileSystem -size "C:\\Users\\Amani\\Desktop\\test.txt" -mb
-          java FileSystem -size "C:\\Users\\Amani\\Desktop" -gb
-          java FileSystem -seg "C:\\Users\\Amani\\Downloads" "C:\\Users\\Amani\\SortedFiles"
+          java FileSystem -size "C:\\Users\\Rohit\\Desktop\\test.txt" -mb
+          java FileSystem -size "C:\\Users\\Rohit\\Desktop" -gb
+          java FileSystem -seg "C:\\Users\\Rohit\\Downloads" "C:\\Users\\Rohit\\SortedFiles"
       """
     );
   }
