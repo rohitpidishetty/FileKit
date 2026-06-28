@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -126,7 +129,15 @@ public class FileSegregator {
       System.out.println("[INFO] Successfully created all sub-directories");
       fl.copyAllFilesIntoSegregatedDirectories(from, to);
       System.out.println("[INFO] Segregation Completed");
-      Files.deleteIfExists(Paths.get(from));
+      Files.walk(Path.of(from))
+        .sorted(Comparator.reverseOrder())
+        .forEach(p -> {
+          try {
+            Files.delete(p);
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+        });
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
