@@ -69,7 +69,7 @@ public class FileSystem {
 
     try {
       switch (command) {
-        case "-size":
+        case "-size": // Folder size
           if (args.length != 3) {
             System.err.println("Error: Invalid arguments for -size command.");
             printUsage();
@@ -105,7 +105,7 @@ public class FileSystem {
             System.exit(1);
           }
           break;
-        case "-seg":
+        case "-seg": // Segregate cluttered files into separate dedicated folders
           if (args.length != 3) {
             System.err.println("Error: Invalid arguments for -seg command.");
             printUsage();
@@ -126,6 +126,15 @@ public class FileSystem {
 
           new FileSegregator().segregate(sourcePath, destinationPath);
           break;
+        case "-rmdf": // Remove Duplicate Files
+          if (args.length != 2) {
+            System.err.println("Error: Invalid arguments for -rmdf command.");
+            printUsage();
+            System.exit(1);
+          }
+          DuplicateFileRemover dupFileRem = new DuplicateFileRemover();
+          dupFileRem.detectAndRemoveDupFiles(args[1]);
+          break;
         default:
           System.err.println("Error: Unknown command: " + command);
           printUsage();
@@ -142,13 +151,14 @@ public class FileSystem {
     System.err.println(
       """
       Usage:
-          java FileSystem -size <file-path> <-kb|-mb|-gb>
-          java FileSystem -seg <file-path-from> <file-path-to>
-
+          java FileKit -size <file-path> <-kb|-mb|-gb>
+          java FileKit -seg  <source-folder-path> <destination-folder-path>
+          java FileKit -rmdf <source-folder-path>
       Examples:
-          java FileSystem -size "C:\\Users\\Rohit\\Desktop\\test.txt" -mb
-          java FileSystem -size "C:\\Users\\Rohit\\Desktop" -gb
-          java FileSystem -seg "C:\\Users\\Rohit\\Downloads" "C:\\Users\\Rohit\\SortedFiles"
+          java FileKit -size "C:\\Users\\Rohit\\Desktop\\test.txt" -mb
+          java FileKit -size "C:\\Users\\Rohit\\Desktop" -gb
+          java FileKit -seg "C:\\Users\\Rohit\\Downloads" "C:\\Users\\Rohit\\SortedFiles"
+          java FileKit -rmdf "C:\\Users\\Rohit\\Folder"
       """
     );
   }
