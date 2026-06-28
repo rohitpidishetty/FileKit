@@ -70,6 +70,7 @@ public class FileSystem {
     try {
       switch (command) {
         case "-size": // Folder size
+          System.out.println("[INFO] Calculating..");
           if (args.length != 3) {
             System.err.println("Error: Invalid arguments for -size command.");
             printUsage();

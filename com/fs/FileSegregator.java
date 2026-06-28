@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,18 +60,18 @@ public class FileSegregator {
         file.getAbsolutePath(),
         copyTo
       );
-      File f = new File(copyTo);
+      File newFile = new File(copyTo);
 
-      if (!f.exists()) {
+      if (!newFile.exists()) {
         try {
-          f.createNewFile();
-          System.out.println("Created");
+          newFile.createNewFile();
+          // System.out.println("Created new file");
         } catch (Exception e) {}
       }
 
       try (
         FileInputStream fis = new FileInputStream(file);
-        FileOutputStream fos = new FileOutputStream(f);
+        FileOutputStream fos = new FileOutputStream(newFile);
       ) {
         byte[] chunk = new byte[4096]; // 4 KB will be read per-loop
         int bytesRead;
@@ -125,6 +126,7 @@ public class FileSegregator {
       System.out.println("[INFO] Successfully created all sub-directories");
       fl.copyAllFilesIntoSegregatedDirectories(from, to);
       System.out.println("[INFO] Segregation Completed");
+      Files.deleteIfExists(Paths.get(from));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
