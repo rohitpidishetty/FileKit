@@ -145,8 +145,9 @@ FileKit/
 
 ## Requirements
 
-- Java Development Kit (JDK) 11 or later
-- Java Runtime Environment (JRE) 11 or later
+- openjdk version "25.0.1" 2025-10-21 LTS
+- OpenJDK Runtime Environment Microsoft-12972523 (build 25.0.1+8-LTS)
+- OpenJDK 64-Bit Server VM Microsoft-12972523 (build 25.0.1+8-LTS, mixed mode, sharing)
 
 ---
 
