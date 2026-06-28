@@ -113,18 +113,15 @@ java -jar FileKit.jar <command> [arguments]
 
 ---
 
-## Planned Features
-
-The following utilities are planned for future releases.
+## Features
 
 - File search
+- Segregate files into dedicated directories
 - Copy files and directories
 - Move files and directories
-- Delete files and directories
 - Duplicate file detection
 - Directory tree generation
 - Disk usage analysis
-
 
 ---
 
@@ -164,7 +161,7 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE.
 jar cfe FileKit.jar com.fs.FileSystem com 
 ```
 
-```
+```text
 ├── com/
 │   └── fs/
 │       ├── FileSystem.java
