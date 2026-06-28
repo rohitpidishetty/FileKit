@@ -58,6 +58,24 @@ java -jar FileKit.jar -seg "C:\Users\rohit\Desktop\GARUDA (Programming language 
 
 ---
 
+### Removing Duplicate Files
+
+Recursively scans a source directory and deletes all duplicate files.
+
+#### Usage
+
+```bash
+java -jar FileKit.jar -rmdf <source-directory>
+```
+
+#### Example
+
+```bash
+java -jar FileKit.jar -seg "C:\Users\rohit\Desktop\Folder"
+```
+
+---
+
 ## Building
 
 Compile the source files.
@@ -102,10 +120,8 @@ The following utilities are planned for future releases.
 - File search
 - Copy files and directories
 - Move files and directories
-- Rename files
 - Delete files and directories
 - Duplicate file detection
-- Empty directory cleanup
 - Directory tree generation
 - Disk usage analysis
 
