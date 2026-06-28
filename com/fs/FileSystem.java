@@ -16,7 +16,7 @@ public class FileSystem {
     String type
   ) {
     try {
-      double size = (Files.readAllBytes(Paths.get(filePath)).length);
+      double size = file.length();
       if (status) printSizeOnScreen(size, file, unit, type);
       globalFileSize += size;
     } catch (Exception e) {
