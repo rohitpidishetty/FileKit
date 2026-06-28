@@ -34,17 +34,25 @@ public class DuplicateFileRemover {
 
   private Set<String> checkSumPool;
 
+  private boolean duplicateFound = false;
+
   public void detectDuplicateFiles(String filePath) throws Exception {
     File file = new File(filePath);
+    if (!file.exists()) {
+      System.out.println("[ERROR] File not found.");
+      System.exit(1);
+    }
     if (file.isFile()) {
-      String checkSum = generateCheckSum(file.getAbsolutePath());
+      String absPath = file.getAbsolutePath();
+      String checkSum = generateCheckSum(absPath);
       if (this.checkSumPool.contains(checkSum)) {
+        if (!duplicateFound) duplicateFound = true;
         System.out.printf(
           "[INFO] Duplicate file identified. Deleting '%s'.%n",
-          file.getAbsolutePath()
+          absPath
         );
         try {
-          Files.delete(Paths.get(file.getAbsolutePath()));
+          Files.delete(Paths.get(absPath));
         } catch (Exception err) {
           System.out.println("[ERROR] Could not delete file " + file.getName());
         }
@@ -59,9 +67,11 @@ public class DuplicateFileRemover {
 
   public void detectAndRemoveDupFiles(String filePath) {
     try {
-      DuplicateFileRemover rmdf = new DuplicateFileRemover();
-      rmdf.checkSumPool = new HashSet<>();
-      rmdf.detectDuplicateFiles(filePath);
+      this.checkSumPool = new HashSet<>();
+      this.detectDuplicateFiles(filePath);
+      if (!duplicateFound) {
+        System.out.println("[INFO] No Duplicate Files Found.");
+      }
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
