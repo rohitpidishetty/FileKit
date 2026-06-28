@@ -71,7 +71,7 @@ java -jar FileKit.jar -rmdf <source-directory>
 #### Example
 
 ```bash
-java -jar FileKit.jar -seg "C:\Users\rohit\Desktop\Folder"
+java -jar FileKit.jar -rmdf "C:\Users\rohit\Desktop\Folder"
 ```
 
 ---
