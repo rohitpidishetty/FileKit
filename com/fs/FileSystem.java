@@ -136,6 +136,13 @@ public class FileSystem {
           DuplicateFileRemover dupFileRem = new DuplicateFileRemover();
           dupFileRem.detectAndRemoveDupFiles(args[1]);
           break;
+        case "-tree":
+          if (args.length != 2) {
+            printUsage();
+            System.exit(1);
+          }
+          new FileTree().view(args[1]);
+          break;
         default:
           System.err.println("Error: Unknown command: " + command);
           printUsage();
@@ -155,11 +162,13 @@ public class FileSystem {
           java FileKit -size <file-path> <-kb|-mb|-gb>
           java FileKit -seg  <source-folder-path> <destination-folder-path>
           java FileKit -rmdf <source-folder-path>
+          java FileKit -tree <folder-path>
       Examples:
           java FileKit -size "C:\\Users\\Rohit\\Desktop\\test.txt" -mb
           java FileKit -size "C:\\Users\\Rohit\\Desktop" -gb
           java FileKit -seg "C:\\Users\\Rohit\\Downloads" "C:\\Users\\Rohit\\SortedFiles"
           java FileKit -rmdf "C:\\Users\\Rohit\\Folder"
+          java FileKit -tree "C:\\Users\\Rohit\\Folder"
       """
     );
   }
