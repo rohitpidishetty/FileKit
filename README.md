@@ -76,6 +76,24 @@ java -jar FileKit.jar -rmdf "C:\Users\rohit\Desktop\Folder"
 
 ---
 
+### View File Tree
+
+Scans and prints files in tree order. 
+
+#### Usage
+
+```bash
+java -jar FileKit.jar -tree <source-directory>
+```
+
+#### Example
+
+```bash
+java -jar FileKit.jar -tree "C:\Users\rohit\Desktop\Folder"
+```
+
+---
+
 ## Building
 
 Compile the source files.
