@@ -14,7 +14,7 @@ public class DuplicateFileRemover {
     MessageDigest md = MessageDigest.getInstance("SHA-256");
 
     try (FileInputStream fis = new FileInputStream(path)) {
-      byte[] buffer = new byte[4096];
+      byte[] buffer = new byte[4096]; // 4096 bytes will be read at once
       int bytesRead;
       while ((bytesRead = fis.read(buffer)) != -1) md.update(
         buffer,
