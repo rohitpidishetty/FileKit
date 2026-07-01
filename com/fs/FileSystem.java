@@ -143,6 +143,14 @@ public class FileSystem {
           }
           new FileTree().view(args[1]);
           break;
+        case "-mv":
+          if (args.length != 3) {
+            printUsage();
+            System.exit(1);
+          }
+          FileRelocator fileRelocator = new FileRelocator();
+          fileRelocator.move(args[1], args[2]);
+          break;
         default:
           System.err.println("Error: Unknown command: " + command);
           printUsage();
@@ -163,12 +171,14 @@ public class FileSystem {
           java FileKit -seg  <source-folder-path> <destination-folder-path>
           java FileKit -rmdf <source-folder-path>
           java FileKit -tree <folder-path>
+          java FileKit -mv <source-file> <destination-folder>
       Examples:
           java FileKit -size "C:\\Users\\Rohit\\Desktop\\test.txt" -mb
           java FileKit -size "C:\\Users\\Rohit\\Desktop" -gb
           java FileKit -seg "C:\\Users\\Rohit\\Downloads" "C:\\Users\\Rohit\\SortedFiles"
           java FileKit -rmdf "C:\\Users\\Rohit\\Folder"
           java FileKit -tree "C:\\Users\\Rohit\\Folder"
+          java FileKit -mv  "C:\\Users\\rohit\\Desktop\\a.exe" "C:\\Users\\rohit\\Desktop\\Folder"
       """
     );
   }

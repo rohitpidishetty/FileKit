@@ -78,7 +78,7 @@ java -jar FileKit.jar -rmdf "C:\Users\rohit\Desktop\Folder"
 
 ### View File Tree
 
-Scans and prints files in tree order. 
+Scans and prints files in tree order.
 
 #### Usage
 
@@ -90,6 +90,24 @@ java -jar FileKit.jar -tree <source-directory>
 
 ```bash
 java -jar FileKit.jar -tree "C:\Users\rohit\Desktop\Folder"
+```
+
+---
+
+### Move Files & Folders
+
+Moves files and folders to another specified destination
+
+#### Usage
+
+```bash
+java -jar FileKit.jar -mv <source-directory> <destination-directory>
+```
+
+#### Example
+
+```bash
+java -jar FileKit.jar -mv "C:\Users\rohit\Desktop\A" "C:\Users\rohit\Desktop\B"
 ```
 
 ---
@@ -170,13 +188,12 @@ FileKit/
 
 This project is licensed under the GNU GENERAL PUBLIC LICENSE.
 
-
 ---
 
 ## Recompiling Binaries
 
 ```bash
-jar cfe FileKit.jar com.fs.FileSystem com 
+jar cfe FileKit.jar com.fs.FileSystem com
 ```
 
 ```text
