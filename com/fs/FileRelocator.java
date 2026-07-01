@@ -16,7 +16,7 @@ public class FileRelocator {
     if (file.isFile()) {
       String newFilePath =
         destination + "\\" + root + file.getAbsolutePath().replace(path, "");
-      System.out.println(newFilePath);
+      // System.out.println(newFilePath);
       File newFile = new File(newFilePath);
 
       try {
