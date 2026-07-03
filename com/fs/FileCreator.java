@@ -1,10 +1,29 @@
-// package com.fs;
+package com.fs;
+
+import java.io.File;
 
 public class FileCreator {
 
-  public static void main(String[] args) {
+  public void createFile(String fileName, String destination) {
     // java -jar FileKit.jar -create <file-name> <destination-directory>
-    String fileName = "x.txt";
-    String destination = "C:\\Users\\rohit\\Desktop";
+
+    if (!(fileName.contains(".") && fileName.split("[.]").length == 2)) {
+      System.out.println("[ERROR] Invalid file name.");
+      System.exit(1);
+    }
+
+    File dir = new File(destination, fileName);
+    File parentFolders = dir.getParentFile();
+
+    if (!parentFolders.isDirectory()) parentFolders.mkdirs();
+
+    try {
+      dir.createNewFile();
+      System.err.println("[INFO] File created successfully.");
+    } catch (Exception e) {
+      System.err.println(
+        "[ERROR] Could not create a new file, try again later."
+      );
+    }
   }
 }

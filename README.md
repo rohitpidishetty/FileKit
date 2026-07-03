@@ -112,6 +112,24 @@ java -jar FileKit.jar -mv "C:\Users\rohit\Desktop\A" "C:\Users\rohit\Desktop\B"
 
 ---
 
+### Create a new file
+
+Create a new file
+
+#### Usage
+
+```bash
+java -jar FileKit.jar -create <file-name> <destination-directory>
+```
+
+#### Example
+
+```bash
+java -jar FileKit.jar -create  "file.txt" "C:\\Users\\rohit\\Desktop\\Folder"
+```
+
+---
+
 ## Building
 
 Compile the source files.
