@@ -130,6 +130,25 @@ java -jar FileKit.jar -create  "file.txt" "C:\\Users\\rohit\\Desktop\\Folder"
 
 ---
 
+
+### Getting file properties 
+
+Get file properties (Name, Size, Creation time)
+
+#### Usage
+
+```bash
+java -jar FileKit.jar -props <file-path>
+```
+
+#### Example
+
+```bash
+java -jar FileKit.jar -props "C:\\Users\\rohit\\Desktop\\Folder\\file.txt"
+```
+
+---
+
 ## Building
 
 Compile the source files.

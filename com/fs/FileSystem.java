@@ -160,6 +160,14 @@ public class FileSystem {
           FileCreator fileCreator = new FileCreator();
           fileCreator.createFile(args[1], args[2]);
           break;
+        case "-props":
+          if (args.length != 2) {
+            printUsage();
+            System.exit(1);
+          }
+          FileProperties fileProps = new FileProperties();
+          fileProps.getProps(args[1]);
+          break;
         default:
           System.err.println("Error: Unknown command: " + command);
           printUsage();
@@ -182,6 +190,7 @@ public class FileSystem {
           java -jar FileKit.jar -tree <folder-path>
           java -jar FileKit.jar -mv <source-file> <destination-folder>
           java -jar FileKit.jar -create <file-name> <destination-directory>
+          java -jar FileKit.jar -props <file-path>
 
       Examples:
           java -jar FileKit.jar -size "C:\\Users\\Rohit\\Desktop\\test.txt" -mb
@@ -190,7 +199,8 @@ public class FileSystem {
           java -jar FileKit.jar -rmdf "C:\\Users\\Rohit\\Folder"
           java -jar FileKit.jar -tree "C:\\Users\\Rohit\\Folder"
           java -jar FileKit.jar -mv  "C:\\Users\\rohit\\Desktop\\a.exe" "C:\\Users\\rohit\\Desktop\\Folder"
-          java -jar FileKit.jar -create  "file.txt" "C:\\Users\\rohit\\Desktop\\Folder"
+          java -jar FileKit.jar -create "file.txt" "C:\\Users\\rohit\\Desktop\\Folder"
+          java -jar FileKit.jar -props "C:\\Users\\rohit\\Desktop\\Folder\\file.txt"
       """
     );
   }
