@@ -74,6 +74,24 @@ if /I "%CMD%"=="-props" (
     exit /b
 )
 
+:: ---------------- SQUASH ----------------
+if /I "%CMD%"=="-squash" (
+    if "%~2"=="" goto help
+    if "%~3"=="" goto help
+
+    java -jar "%JAR%" %*
+    exit /b
+)
+
+
+:: ---------------- DESQUASH ----------------
+if /I "%CMD%"=="-desquash" (
+    if "%~2"=="" goto help
+
+    java -jar "%JAR%" %*
+    exit /b
+)
+
 echo [ERROR] Unknown command: %CMD%
 goto help
 

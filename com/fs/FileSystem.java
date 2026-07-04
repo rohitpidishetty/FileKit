@@ -1,5 +1,6 @@
 package com.fs;
 
+import com.fs.squash.Squash;
 import java.io.File;
 
 public class FileSystem {
@@ -103,6 +104,20 @@ public class FileSystem {
           FileProperties fileProps = new FileProperties();
           fileProps.getProps(args[1]);
           break;
+        case "-squash":
+          if (args.length != 3) {
+            printUsage();
+            System.exit(1);
+          }
+          new Squash(new String[] { "-compress", args[1], args[2] });
+          break;
+        case "-desquash":
+          if (args.length != 2) {
+            printUsage();
+            System.exit(1);
+          }
+          new Squash(new String[] { "-decompress", args[1] });
+          break;
         default:
           System.err.println("Error: Unknown command: " + command);
           printUsage();
@@ -126,6 +141,8 @@ public class FileSystem {
           java -jar FileKit.jar -mv <source-file> <destination-folder>
           java -jar FileKit.jar -create <file-name> <destination-directory>
           java -jar FileKit.jar -props <file-path>
+          java -jar FileKit.jar -squash <file-path> <squashed-file-name>
+          java -jar FileKit.jar -desquash <file-path>
 
       Examples:
           java -jar FileKit.jar -size "C:\\Users\\Rohit\\Desktop\\test.txt" -mb
@@ -136,6 +153,8 @@ public class FileSystem {
           java -jar FileKit.jar -mv  "C:\\Users\\rohit\\Desktop\\a.exe" "C:\\Users\\rohit\\Desktop\\Folder"
           java -jar FileKit.jar -create "file.txt" "C:\\Users\\rohit\\Desktop\\Folder"
           java -jar FileKit.jar -props "C:\\Users\\rohit\\Desktop\\Folder\\file.txt"
+          java -jar FileKit.jar -squash "C:\\Users\\rohit\\Desktop\\Folder\\file.txt" "squashed"
+          java -jar FileKit.jar -desquash "C:\\Users\\rohit\\Desktop\\Folder\\squashed.tar.sq"
       """
     );
   }
