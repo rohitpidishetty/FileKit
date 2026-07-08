@@ -92,6 +92,12 @@ if /I "%CMD%"=="-desquash" (
     exit /b
 )
 
+:: ---------------- TOP ----------------
+if /I "%CMD%"=="-top" (
+    java -jar "%JAR%" %*
+    exit /b
+)
+
 echo [ERROR] Unknown command: %CMD%
 goto help
 
@@ -111,6 +117,7 @@ echo   ./filekit -tree   ^<folder^>
 echo   ./filekit -mv     ^<source-file^> ^<destination-folder^>
 echo   ./filekit -create ^<file-name^> ^<destination-directory^>
 echo   ./filekit -props  ^<file-path^>
+echo   ./filekit -top    ^<number> ^<file-path^> ^<-kb^-mb^-gb^> -path
 echo.
 echo ================================================
 exit /b 1
