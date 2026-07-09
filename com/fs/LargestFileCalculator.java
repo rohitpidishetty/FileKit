@@ -75,7 +75,7 @@ public class LargestFileCalculator {
     String measure,
     int top
   ) {
-    // java -jar FileKit.jar -top 5 <folder-path> -<b|kb|mb|gb>
+    // java -jar FileKit.jar -top 5 <folder-path> -<b|kb|mb|gb> -path
 
     File file = new File(rootPath);
 
