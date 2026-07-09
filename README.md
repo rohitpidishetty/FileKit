@@ -130,7 +130,6 @@ java -jar FileKit.jar -create  "file.txt" "C:\\Users\\rohit\\Desktop\\Folder"
 
 ---
 
-
 ### Getting file properties 
 
 Get file properties (Name, Size, Creation time)
@@ -148,6 +147,60 @@ java -jar FileKit.jar -props "C:\\Users\\rohit\\Desktop\\Folder\\file.txt"
 ```
 
 ---
+
+### Compress and decompress files using squash 
+
+Internally uses squash program to compress and decompress files
+
+#### Usage
+
+```bash
+java -jar FileKit.jar -squash <file-path> <squashed-file-name>
+java -jar FileKit.jar -desquash <file-path>
+```
+
+#### Example
+
+```bash
+java -jar FileKit.jar -squash "C:\\Users\\rohit\\Desktop\\Folder\\file.txt" "squashed"
+java -jar FileKit.jar -desquash "C:\\Users\\rohit\\Desktop\\Folder\\squashed.tar.sq"
+```
+---
+
+### Top 'N' largest files 
+
+Scans a directory and lists the top 'N' largest files.
+
+#### Usage
+
+```bash
+java -jar FileKit.jar -top <number> <folder-path> <-b|-kb|-mb|-gb> -path
+```
+
+#### Example
+
+```bash
+java -jar FileKit.jar -top 5 "C:\\Users\\rohit\\Desktop\\Folder" -mb -path
+```
+---
+
+### Get directory statistics 
+
+Displays comprehensive directory and file statistics.
+
+#### Usage
+
+```bash
+java -jar FileKit.jar -stats <folder-path>
+```
+
+#### Example
+
+```bash
+java -jar FileKit.jar -stats "C:\\Users\\rohit\\Desktop\\Folder"
+```
+---
+
 
 ## Building
 
