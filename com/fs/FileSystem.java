@@ -133,6 +133,13 @@ public class FileSystem {
             Integer.parseInt(args[1])
           );
           break;
+        case "-stats":
+          if (args.length != 2) {
+            printUsage();
+            System.exit(1);
+          }
+          DirectoryAnalyzer.main(args[1]);
+          break;
         default:
           System.err.println("Error: Unknown command: " + command);
           printUsage();
@@ -159,6 +166,7 @@ public class FileSystem {
           java -jar FileKit.jar -squash <file-path> <squashed-file-name>
           java -jar FileKit.jar -desquash <file-path>
           java -jar FileKit.jar -top <number> <folder-path> <-b|-kb|-mb|-gb> -path
+          java -jar FileKit.jar -stats <folder-path>
 
       Examples:
           java -jar FileKit.jar -size "C:\\Users\\Rohit\\Desktop\\test.txt" -mb
@@ -172,6 +180,7 @@ public class FileSystem {
           java -jar FileKit.jar -squash "C:\\Users\\rohit\\Desktop\\Folder\\file.txt" "squashed"
           java -jar FileKit.jar -desquash "C:\\Users\\rohit\\Desktop\\Folder\\squashed.tar.sq"
           java -jar FileKit.jar -top 5 "C:\\Users\\rohit\\Desktop\\Folder" -mb -path
+          java -jar FileKit.jar -stats "C:\\Users\\rohit\\Desktop\\Folder"
       """
     );
   }
