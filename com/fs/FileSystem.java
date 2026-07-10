@@ -17,7 +17,7 @@ public class FileSystem {
       switch (command) {
         case "-size": // Folder size
           System.out.println("[INFO] Calculating..");
-          if (args.length != 3) {
+          if (!(args.length == 3 || args.length == 4)) {
             System.err.println("Error: Invalid arguments for -size command.");
             printUsage();
             System.exit(1);
@@ -38,10 +38,24 @@ public class FileSystem {
             System.exit(1);
           }
           FileSizeCalculator fsCal = new FileSizeCalculator();
-          if (file.isFile()) fsCal.getFileSize(path, file, true, unit, "FILE");
+          if (file.isFile()) fsCal.getFileSize(
+            path,
+            file,
+            true,
+            unit,
+            "FILE",
+            false
+          );
           else if (file.isDirectory()) {
-            fsCal.dfs(path, file, unit);
-            fsCal.printSizeOnScreen(fsCal.globalFileSize, file, unit, "FOLDER");
+            boolean generateJson = args.length == 4 && args[3].equals("-json");
+            fsCal.dfs(path, file, unit, generateJson);
+            fsCal.printSizeOnScreen(
+              fsCal.globalFileSize,
+              file,
+              unit,
+              "FOLDER",
+              generateJson
+            );
           } else {
             System.err.println("Error: Unsupported path type: " + path);
             System.exit(1);

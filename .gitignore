@@ -2,3 +2,4 @@
 *.class
 .gitignore
 .vscode/
+reports/
