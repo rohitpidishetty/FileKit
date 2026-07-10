@@ -42,8 +42,6 @@ if /I "%CMD%"=="-rmdf" (
 
 :: ---------------- TREE ----------------
 if /I "%CMD%"=="-tree" (
-    if not "%~3"=="" goto help
-
     java -jar "%JAR%" %*
     exit /b
 )

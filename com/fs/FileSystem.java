@@ -88,11 +88,14 @@ public class FileSystem {
           dupFileRem.detectAndRemoveDupFiles(args[1]);
           break;
         case "-tree":
-          if (args.length != 2) {
+          if (!(args.length == 2 || args.length == 3)) {
             printUsage();
             System.exit(1);
           }
-          new FileTree().view(args[1]);
+          new FileTree().view(
+            args[1],
+            args.length == 3 && args[2].equals("-json")
+          );
           break;
         case "-mv":
           if (args.length != 3) {
