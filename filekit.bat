@@ -9,16 +9,6 @@ set CMD=%~1
 
 :: ---------------- SIZE ----------------
 if /I "%CMD%"=="-size" (
-    if not "%~4"=="" goto help
-    if "%~3"=="" goto help
-
-
-    if /I not "%~3"=="-kb" if /I not "%~3"=="-mb" if /I not "%~3"=="-gb" (
-        echo [ERROR] Invalid size unit.
-        echo Supported units: -kb -mb -gb
-        exit /b 1
-    )
-
     java -jar "%JAR%" %*
     exit /b
 )

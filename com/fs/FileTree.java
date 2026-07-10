@@ -58,28 +58,13 @@ public class FileTree {
     }
     this.printTree(file, "", false, jsonFileTree);
     if (generateJson) {
-      System.out.println("[INFO] Generating Json..");
       new Json()
         .build("file-tree", jsonFileTree)
         .normalize(json -> {
-          String folderName =
-            file.getName() + "-tree-report-" + UUID.randomUUID().toString();
-          File root = new File("reports");
-          try {
-            File report = new File(root, folderName + "-report.json");
-
-            try (
-              BufferedWriter writer = new BufferedWriter(new FileWriter(report))
-            ) {
-              writer.write(json);
-            }
-
-            System.out.println(
-              "File generated at reports/" + folderName + "-report.json"
-            );
-          } catch (Exception e) {
-            System.out.println(e);
-          }
+          JsonWriter.writeToJsonFile(
+            file.getName() + "-tree-report-" + UUID.randomUUID().toString(),
+            json
+          );
         });
     }
   }

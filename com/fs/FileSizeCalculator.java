@@ -54,31 +54,16 @@ public class FileSizeCalculator {
     );
 
     if (generateJson) {
-      System.out.println("[INFO] Generating Json Report..");
       new Json()
         .build("type", type)
         .build("name", file.getName())
         .build("size", size)
         .build("unit", _unit_)
         .normalize(json -> {
-          String folderName =
-            file.getName() + "-size-report-" + UUID.randomUUID().toString();
-          File root = new File("reports");
-          try {
-            File report = new File(root, folderName + "-report.json");
-
-            try (
-              BufferedWriter writer = new BufferedWriter(new FileWriter(report))
-            ) {
-              writer.write(json);
-            }
-
-            System.out.println(
-              "File generated at reports/" + folderName + "-report.json"
-            );
-          } catch (Exception e) {
-            System.out.println(e);
-          }
+          JsonWriter.writeToJsonFile(
+            file.getName() + "-size-report-" + UUID.randomUUID().toString(),
+            json
+          );
         });
     }
   }
