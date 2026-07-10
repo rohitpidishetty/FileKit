@@ -1,5 +1,0 @@
-# Ignore class files while pushing into repository
-*.class
-.gitignore
-.vscode/
-reports/
