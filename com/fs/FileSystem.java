@@ -114,12 +114,16 @@ public class FileSystem {
           fileCreator.createFile(args[1], args[2]);
           break;
         case "-props":
-          if (args.length != 2) {
+          // java -jar FileKit.jar -props <file-path>
+          if (!(args.length == 2 || args.length == 3)) {
             printUsage();
             System.exit(1);
           }
           FileProperties fileProps = new FileProperties();
-          fileProps.getProps(args[1]);
+          fileProps.getProps(
+            args[1],
+            args.length == 3 && args[2].equals("-json")
+          );
           break;
         case "-squash":
           if (args.length != 3) {
@@ -137,25 +141,34 @@ public class FileSystem {
           break;
         case "-top":
           LargestFileCalculator larFileCal = new LargestFileCalculator();
-          // -top, 5, <folder-path>, -<b|kb|mb|gb>, -path
-          if (!(args.length == 5 || args.length == 4)) {
+          // -top, 5, <folder-path>, -<b|kb|mb|gb>, -path, -json
+          if (!(args.length == 5 || args.length == 4 || args.length == 6)) {
             printUsage();
             System.exit(1);
           }
 
-          larFileCal.main(
-            args[2],
-            args.length == 5,
-            args[3].replace("-", ""),
-            Integer.parseInt(args[1])
-          );
-          break;
-        case "-stats":
-          if (args.length != 2) {
+          try {
+            larFileCal.main(
+              args[2],
+              args.length == 5 && args[4].equals("-path"),
+              args[3].replace("-", ""),
+              Integer.parseInt(args[1]),
+              args.length == 6 && args[5].equals("-json")
+            );
+          } catch (Exception e) {
             printUsage();
             System.exit(1);
           }
-          DirectoryAnalyzer.main(args[1]);
+          break;
+        case "-stats":
+          if (!(args.length == 2 || args.length == 3)) {
+            printUsage();
+            System.exit(1);
+          }
+          DirectoryAnalyzer.main(
+            args[1],
+            args.length == 3 && args[2].equals("-json")
+          );
           break;
         default:
           System.err.println("Error: Unknown command: " + command);

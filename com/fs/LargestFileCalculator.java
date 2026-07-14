@@ -1,9 +1,12 @@
 package com.fs;
 
+import com.javap.util.Json;
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Stack;
+import java.util.UUID;
 
 public class LargestFileCalculator {
 
@@ -17,6 +20,22 @@ public class LargestFileCalculator {
       this.filePath = filePath;
 
       this.fileSize = fileSize;
+    }
+
+    @Override
+    public String toString() {
+      return String.format(
+        """
+        {
+          "fileName" : \"%s\",
+          "filePath" : \"%s\",
+          "fileSize" :  %.2f
+
+        }""",
+        fileName,
+        filePath,
+        fileSize
+      );
     }
   }
 
@@ -73,7 +92,8 @@ public class LargestFileCalculator {
     String rootPath,
     boolean printFilePath,
     String measure,
-    int top
+    int top,
+    boolean generateJson
   ) {
     // java -jar FileKit.jar -top 5 <folder-path> -<b|kb|mb|gb> -path
 
@@ -85,10 +105,11 @@ public class LargestFileCalculator {
     }
 
     this.driveThroughFiles(file, printFilePath, measure, top);
-
-    measure = measure.toUpperCase();
+    Json json = new Json();
+    String M = measure.toUpperCase();
     Stack<FileData> stack = new Stack<>();
     while (pQ.size() > 0) stack.push(pQ.poll());
+    int number = 0;
     while (!stack.isEmpty()) {
       FileData fileData = stack.pop();
       System.out.printf(
@@ -98,6 +119,26 @@ public class LargestFileCalculator {
         measure,
         printFilePath ? fileData.filePath : ""
       );
+      json.build(
+        "file-" + (number++),
+        new HashMap<>() {
+          {
+            put("fileName", fileData.fileName);
+            put("fileSize", fileData.fileSize);
+            put("measure", M);
+            put("filePath", fileData.filePath);
+          }
+        }
+      );
+    }
+
+    if (generateJson) {
+      json.normalize(data -> {
+        JsonWriter.writeToJsonFile(
+          file.getName() + "-top-report-" + UUID.randomUUID().toString(),
+          data
+        );
+      });
     }
     stack.clear();
   }

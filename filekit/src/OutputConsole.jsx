@@ -1,5 +1,6 @@
 import React from "react";
 import "./OutputConsole.css";
+import StorageChart from "./StorageChart";
 
 function OutputConsole({
   open,
@@ -7,6 +8,7 @@ function OutputConsole({
   running = false,
   error = "",
   onClose,
+  chartInfo = null
 }) {
   if (!open) return null;
 
@@ -55,6 +57,11 @@ function OutputConsole({
 
         </div>
 
+        {chartInfo &&
+          <StorageChart
+            type={chartInfo}
+            filePath={output?.split("\n")[output?.split("\n")?.length - 1]?.replace("File generated at", "").trim()} />
+        }
       </div>
     </div>
   );

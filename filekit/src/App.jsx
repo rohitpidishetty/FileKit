@@ -151,7 +151,7 @@ function App() {
 
         try {
           setRunning(true);
-          const result = await window.electronAPI.issueFileKitCommand(["-size", path, argsFormat(unit)]);
+          const result = await window.electronAPI.issueFileKitCommand(["-size", path, argsFormat(unit), "-json"]);
           executionHelper(result);
         }
         catch (error) {
@@ -516,6 +516,7 @@ function App() {
           running={running}
           error={runError}
           onClose={() => setShowOutput(false)}
+          chartInfo={"size"}
         />}
     </div >
   );

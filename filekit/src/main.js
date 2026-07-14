@@ -1,11 +1,12 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('node:path');
 const fs = require('node:fs');
+const fileSys = require("fs/promises");
 const { execFile } = require("node:child_process");
 
-if (require('electron-squirrel-startup')) {
+if (require('electron-squirrel-startup'))
   app.quit();
-}
+
 
 
 
@@ -32,7 +33,7 @@ ipcMain.handle("dialog:open", async (_event, type) => {
 });
 
 ipcMain.handle("filekit:run", async (_event, args) => {
-
+  console.log(args)
   const jarPath = path.join(
     process.cwd(),
     "src",
@@ -69,6 +70,10 @@ ipcMain.handle("filekit:run", async (_event, args) => {
   });
 });
 
+
+ipcMain.handle("read-file", async (_, filePath) => {
+  return await fileSys.readFile(filePath, "utf8");
+});
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({

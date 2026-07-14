@@ -40,8 +40,10 @@
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1",
+    "fs": "^0.0.1-security",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-icons": "^5.7.0"
+    "react-icons": "^5.7.0",
+    "recharts": "^3.9.2"
   }
 }
