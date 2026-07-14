@@ -126,7 +126,7 @@ public class LargestFileCalculator {
             put("fileName", fileData.fileName);
             put("fileSize", fileData.fileSize);
             put("measure", M);
-            put("filePath", fileData.filePath);
+            put("filePath", fileData.filePath.replace("\\", "/"));
           }
         }
       );

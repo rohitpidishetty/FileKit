@@ -114,6 +114,7 @@ function App() {
 
 
   const [unit, setUnit] = useState("KB");
+  const [operation, setOperation] = useState(null);
 
   function argsFormat(unit) {
     switch (unit) {
@@ -136,6 +137,7 @@ function App() {
     setOutput(result.output);
     setRunning(false);
     setRunError(result.error);
+    setOperation(selectedUtility.title.toLowerCase());
     setShowOutput(true);
   }
 
@@ -179,7 +181,7 @@ function App() {
         }
         try {
           setRunning(true);
-          const result = await window.electronAPI.issueFileKitCommand(["-top", limit, path, argsFormat(unit)]);
+          const result = await window.electronAPI.issueFileKitCommand(["-top", limit, path, argsFormat(unit), "-path", "-json"]);
           executionHelper(result);
         }
         catch (error) {
@@ -516,7 +518,7 @@ function App() {
           running={running}
           error={runError}
           onClose={() => setShowOutput(false)}
-          chartInfo={"size"}
+          chartInfo={operation}
         />}
     </div >
   );
