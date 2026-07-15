@@ -12,6 +12,12 @@ function OutputConsole({
 }) {
   if (!open) return null;
 
+  let path = output?.split("\n");
+  path = path[path?.length - 1];
+  if (new String(path).startsWith("File generated at"))
+    path = path.replace("File generated at", "").trim();
+  else path = null;
+
   return (
     <div className="console-overlay">
       <div className="output-console">
@@ -60,7 +66,7 @@ function OutputConsole({
         {chartInfo &&
           <StorageChart
             type={chartInfo}
-            filePath={output?.split("\n")[output?.split("\n")?.length - 1]?.replace("File generated at", "").trim()} />
+            filePath={path} />
         }
       </div>
     </div>

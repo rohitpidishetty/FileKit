@@ -1332,3 +1332,11 @@ select {
     grid-template-columns: 1fr;
   }
 }
+
+.inps label {
+  display: block;
+  margin: 0 0 7px 2px;
+  color: #66738a;
+  font-size: 12px;
+  font-weight: 600;
+}

@@ -10,6 +10,19 @@ if (require('electron-squirrel-startup'))
 
 
 
+const mainWindow = new BrowserWindow({
+  width: 1200,
+  height: 800,
+
+  icon: path.join(__dirname, "assets", "FileKit.png"),
+
+  webPreferences: {
+    preload: path.join(__dirname, "preload.js"),
+  },
+});
+
+
+
 ipcMain.handle("filekit:jar-exists", () => {
   const jarPath = path.join(process.cwd(), "src", "binaries", "FileKit.jar");
 
@@ -33,7 +46,7 @@ ipcMain.handle("dialog:open", async (_event, type) => {
 });
 
 ipcMain.handle("filekit:run", async (_event, args) => {
-  console.log(args)
+
   const jarPath = path.join(
     process.cwd(),
     "src",

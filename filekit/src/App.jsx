@@ -4,6 +4,7 @@ import "./App.css";
 import fileKitLogo from "./assets/FileKit.png";
 import tools from "./assets/utilities.json";
 import OutputConsole from "./OutputConsole";
+import WindowsLoader from "./WindowsLoader.jsx";
 
 
 const navItems = [
@@ -25,6 +26,32 @@ function App() {
   const [fileType, setFileType] = useState("file");
   const [showOutput, setShowOutput] = useState(false);
   const [limit, setLimit] = useState(0);
+  const [showMeasureOptions, setShowMeasureOptions] = useState(true);
+  const [showLimitOption, setShowLimitOption] = useState(false);
+  const [destinationInput, setDestinationInput] = useState(null);
+  const [jarPath, setJarPath] = useState(null);
+  const [path, setPath] = useState(null);
+  const [showFileOrFolderOption, setShowFileOrFolderOption] = useState(true);
+  const [unit, setUnit] = useState("KB");
+  const [operation, setOperation] = useState(null);
+  const [destination, setDestination] = useState(null);
+  const [output, setOutput] = useState(null);
+  const [running, setRunning] = useState(null);
+  const [runError, setRunError] = useState(null);
+  const [loader, setLoader] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState(null);
+  const [activityQueue, setActivityQueue] = useState([]);
+  const [sourceInput, setSourceInput] = useState(true);
+  const [inputBox, setInputBox] = useState(false);
+  const [fileName, setFileName] = useState(null);
+
+  var ref = useRef({
+    path: "D:\\",
+  })
+
+  var dest = useRef({
+    path: "C:\\"
+  })
 
   const filteredUtilities = useMemo(() => {
     if (utilities === null) return;
@@ -46,38 +73,69 @@ function App() {
   }, [activeNav, search, utilities]);
 
 
-  const [showMeasureOptions, setShowMeasureOptions] = useState(true);
-  const [showLimitOption, setShowLimitOption] = useState(false);
+  function config(a, b, c, d, e, f) {
+    setSourceInput(a);
+    setShowMeasureOptions(b);
+    setShowFileOrFolderOption(c);
+    setShowLimitOption(d);
+    setInputBox(e);
+    setDestinationInput(f);
+  }
 
   const openUtility = (utility) => {
     const util = utility.title.toLowerCase();
 
+
+
     switch (util) {
       case "size":
-        setShowMeasureOptions(true);
-        setShowFileOrFolderOption(true);
-        setShowLimitOption(false);
+        config(true, true, true, false, false, false);
         break;
 
       case "tree":
+        config(true, false, false, false, false, false);
         setFileType("folder");
-        setShowFileOrFolderOption(false);
-        setShowMeasureOptions(false);
-        setShowLimitOption(false);
         break;
 
       case "top files":
-        setShowMeasureOptions(true);
-        setShowFileOrFolderOption(false);
-        setShowLimitOption(true);
+        config(true, true, false, true, false, false);
         setFileType("folder");
+        break;
 
+
+      case "segregation":
+        config(true, false, false, false, false, true);
+        setFileType("folder");
+        break;
+
+      case "remove duplicate files":
+        config(true, false, false, false, false, false);
+        setFileType("folder");
+        break;
+
+      case "move":
+        config(true, false, true, false, false, true);
+        setFileType("folder");
+        break;
+
+
+      case "create":
+        config(false, false, false, false, true, true);
+        setFileType("folder");
+        break;
+
+      case "properties":
+        config(true, false, true, false, false, false);
+        setFileType("folder");
+        break;
+
+      case "statistics":
+        config(true, false, false, false, false, false);
+        setFileType("folder");
         break;
 
       default:
-        setShowFileOrFolderOption(false);
-        setShowMeasureOptions(false);
-        setShowLimitOption(false);
+
         break;
     }
 
@@ -94,14 +152,6 @@ function App() {
     else return "Good Morning";
   }
 
-  const [jarPath, setJarPath] = useState(null);
-  const [path, setPath] = useState(null);
-  const [showFileOrFolderOption, setShowFileOrFolderOption] = useState(true);
-
-  const ref = useRef({
-    path: "D:\\",
-  })
-
   const browseFile = async (util) => {
 
     const selectedPath = await window.electronAPI.openDialog(fileType);
@@ -112,9 +162,13 @@ function App() {
     }
   };
 
-
-  const [unit, setUnit] = useState("KB");
-  const [operation, setOperation] = useState(null);
+  const browseDestFolder = async () => {
+    const selectedPath = await window.electronAPI.openDialog("folder");
+    if (selectedPath) {
+      setDestination(selectedPath);
+      dest.current.path = selectedPath;
+    }
+  };
 
   function argsFormat(unit) {
     switch (unit) {
@@ -124,10 +178,6 @@ function App() {
       case "GB": return "-gb";
     }
   }
-
-  const [output, setOutput] = useState(null);
-  const [running, setRunning] = useState(null);
-  const [runError, setRunError] = useState(null);
 
   function executionHelper(result) {
     if (!result) {
@@ -139,9 +189,18 @@ function App() {
     setRunError(result.error);
     setOperation(selectedUtility.title.toLowerCase());
     setShowOutput(true);
+    setLoadingMessage(null);
+    setFileName(null);
+    ref.current.path = "D:\\";
+    dest.current.path = "C:\\";
   }
 
   const executeUtility = async (utility) => {
+
+    let activityCommand = "";
+    let activityTime = new Date().getTime();
+    let activityName = utility.title;
+    let status = "Completed";
 
     const util = utility?.title?.toLowerCase();
     switch (util) {
@@ -153,11 +212,14 @@ function App() {
 
         try {
           setRunning(true);
-          const result = await window.electronAPI.issueFileKitCommand(["-size", path, argsFormat(unit), "-json"]);
+          let args = ["-size", path, argsFormat(unit), "-json"];
+          activityCommand = ["filekit", ...args].join(" ");
+          const result = await window.electronAPI.issueFileKitCommand(args);
           executionHelper(result);
         }
         catch (error) {
-          console.log(error);
+          // console.log(error);
+          status = "Suspended";
         }
         break;
       case "tree":
@@ -167,11 +229,14 @@ function App() {
         }
         try {
           setRunning(true);
-          const result = await window.electronAPI.issueFileKitCommand(["-tree", path]);
+          let args = ["-tree", path];
+          activityCommand = ["filekit", ...args].join(" ");
+          const result = await window.electronAPI.issueFileKitCommand(args);
           executionHelper(result);
         }
         catch (error) {
           console.log(error);
+          status = "Suspended";
         }
         break;
       case "top files":
@@ -181,19 +246,156 @@ function App() {
         }
         try {
           setRunning(true);
-          const result = await window.electronAPI.issueFileKitCommand(["-top", limit, path, argsFormat(unit), "-path", "-json"]);
+          let args = ["-top", limit, path, argsFormat(unit), "-path", "-json"];
+          activityCommand = ["filekit", ...args].join(" ");
+          const result = await window.electronAPI.issueFileKitCommand(args);
           executionHelper(result);
         }
         catch (error) {
-          console.log(error);
+          // console.log(error);
+          status = "Suspended";
+        }
+        break;
+      case "segregation":
+        if (!path || !destination) {
+          alert("Please specify the source & destination folder path.")
+          return;
+        }
+        try {
+          setLoadingMessage("File segregation in-progress, please wait !")
+          setRunning(true);
+          setLoader(true);
+          let args = ["-seg", path, destination];
+          activityCommand = ["filekit", ...args].join(" ");
+          const result = await window.electronAPI.issueFileKitCommand(args);
+          setLoader(false);
+
+          executionHelper(result);
+        }
+        catch (error) {
+          // console.log(error);
+          status = "Suspended";
+        }
+        break;
+      case "remove duplicate files":
+        if (!path) {
+          alert("Please specify the source folder path.")
+          return;
+        }
+        try {
+          setLoadingMessage("Removing duplicate files, please wait !");
+          setRunning(true);
+          setLoader(true);
+          let args = ["-rmdf", path];
+          activityCommand = ["filekit", ...args].join(" ");
+          const result = await window.electronAPI.issueFileKitCommand(args);
+          setLoader(false);
+          executionHelper(result);
+        }
+        catch (error) {
+          // console.log(error);
+          status = "Suspended";
+        }
+        break;
+      case "move":
+        if (!path || !destination) {
+          alert("Please specify the source & destination folder path.")
+          return;
+        }
+        try {
+          setLoadingMessage("Transferring files, please wait !");
+          setRunning(true);
+          setLoader(true);
+          let args = ["-mv", path, destination];
+          activityCommand = ["filekit", ...args].join(" ");
+          const result = await window.electronAPI.issueFileKitCommand(args);
+          setLoader(false);
+          executionHelper(result);
+          alert("Transfer completed.");
+        }
+        catch (error) {
+          // console.log(error);
+          status = "Suspended";
+        }
+        break;
+      case "create":
+        if (!fileName || !destination) {
+          alert("Please specify the file name & destination folder path.")
+          return;
+        }
+        const regex = /^[a-zA-Z0-9._ -]+$/;
+
+
+        if (!regex.test(fileName)) {
+          alert("Invalid file name, please choose a proper file name");
+          return;
+        }
+        try {
+          setLoadingMessage("Creating file, please wait !");
+          setRunning(true);
+          setLoader(true);
+          let args = ["-create", fileName, destination];
+          activityCommand = ["filekit", ...args].join(" ");
+          const result = await window.electronAPI.issueFileKitCommand(args);
+          setLoader(false);
+          executionHelper(result);
+          alert("File created.");
+        }
+        catch (error) {
+          // console.log(error);
+          status = "Suspended";
+        }
+        break;
+      case "properties":
+        if (!path) {
+          alert("Please specify the file or folder path.")
+          return;
+        }
+        try {
+          setRunning(true);
+          let args = ["-props", path];
+          activityCommand = ["filekit", ...args].join(" ");
+          const result = await window.electronAPI.issueFileKitCommand(args);
+          executionHelper(result);
+        }
+        catch (error) {
+          // console.log(error);
+          status = "Suspended";
+        }
+        break;
+      case "statistics":
+        if (!path) {
+          alert("Please specify the file or folder path.")
+          return;
+        }
+        try {
+          setRunning(true);
+          let args = ["-stats", path, "-json"];
+          activityCommand = ["filekit", ...args].join(" ");
+          const result = await window.electronAPI.issueFileKitCommand(args);
+          executionHelper(result);
+        }
+        catch (error) {
+          // console.log(error);
+          status = "Suspended";
         }
         break;
       default:
         break;
     }
+
+    const activitySnapshot = {
+      command: activityCommand,
+      time: activityTime,
+      name: activityName,
+      status: status
+    }
+
+    activityQueue.push(activitySnapshot);
+    if (activityQueue.length > 5)
+      activityQueue.shift();
+
   }
-
-
 
   useEffect(() => {
     const checkJar = async () => {
@@ -202,7 +404,10 @@ function App() {
         setJarPath(result.path);
     };
     checkJar();
+
   }, []);
+
+
 
   return (
     <div className="app-shell">
@@ -409,8 +614,7 @@ function App() {
               </div>
 
               <p className="details-description">
-                {selectedUtility.description}. Configure the utility and execute
-                it directly from FileKit.
+                {selectedUtility.description}.
               </p>
 
               <div className="field-group">
@@ -430,17 +634,38 @@ function App() {
                     </div>
                   </div>
                 }
-                <label htmlFor="source-path">Source path</label>
+                {
+                  sourceInput &&
+                  <div>
+                    <label htmlFor="source-path">Source path</label>
 
-                <div className="input-shell">
-                  <input
-                    id="source-path"
-                    type="text"
-                    value={ref.current?.path}
-                  />
+                    <div className="input-shell">
+                      <input
+                        id="source-path"
+                        type="text"
+                        value={ref.current?.path}
+                      />
 
-                  <button onClick={() => browseFile(selectedUtility)} type="button">Browse</button>
-                </div>
+                      <button onClick={() => browseFile(selectedUtility)} type="button">Browse</button>
+                    </div>
+                  </div>
+                }
+
+                {
+                  inputBox && <div>
+                    <label htmlFor="source-path">File name</label>
+
+                    <div className="input-shell">
+                      <input
+                        id="source-path"
+                        type="text"
+                        placeholder="FileName.Type"
+                        onChange={(e) => setFileName(e.target.value.trim())}
+                      />
+
+                    </div>
+                  </div>
+                }
               </div>
 
               <div className="field-row">
@@ -464,8 +689,23 @@ function App() {
                     <input id="limit" type="number" onChange={(e) => setLimit(e.target.value)} defaultValue="1" />
                   </div>
                 }
-              </div>
 
+              </div>
+              {
+                destinationInput &&
+                <div className="inps">
+                  <label htmlFor="source-path">Destination folder path</label>
+                  <div className="input-shell">
+                    <input
+                      id="dest-path"
+                      type="text"
+                      value={dest.current?.path}
+                    />
+
+                    <button onClick={() => browseDestFolder()} type="button">Browse</button>
+                  </div>
+                </div>
+              }
 
 
               <button onClick={() => executeUtility(selectedUtility)} className="run-button" type="button">
@@ -474,37 +714,30 @@ function App() {
               </button>
 
               <div className="recent-activity">
-                <div className="recent-heading">
-                  <h4>Recent activity</h4>
-
-                </div>
-
-                <div className="activity-item">
-                  <div className="activity-icon">◫</div>
-                  <div>
-                    <strong>Folder size</strong>
-                    <p>Downloads · 2 minutes ago</p>
+                {
+                  activityQueue.length !== 0 &&
+                  <div className="recent-heading">
+                    <h4>Recent activity</h4>
                   </div>
-                  <span>14.8 GB</span>
-                </div>
+                }
 
-                <div className="activity-item">
-                  <div className="activity-icon">⌘</div>
-                  <div>
-                    <strong>Directory tree</strong>
-                    <p>Projects · 18 minutes ago</p>
-                  </div>
-                  <span>Done</span>
-                </div>
-
-                <div className="activity-item">
-                  <div className="activity-icon">◇</div>
-                  <div>
-                    <strong>Archive created</strong>
-                    <p>Documents · 1 hour ago</p>
-                  </div>
-                  <span>82 MB</span>
-                </div>
+                {
+                  activityQueue.length !== 0 &&
+                  activityQueue
+                    .reverse()
+                    .map((activity, key) => {
+                      return (
+                        <div key={key} className="activity-item">
+                          <div className="activity-icon">{utilities.filter((e) => e.title.toLowerCase() === activity.name.toLowerCase())[0].icon}</div>
+                          <div>
+                            <strong>{activity.name}</strong>
+                            <p>At {new Date(activity.time).toLocaleTimeString() + " - " + new Date(activity.time).toDateString()}</p>
+                          </div>
+                          <span>{activity.status}</span>
+                        </div>
+                      )
+                    })
+                }
               </div>
             </aside>
           </section>
@@ -520,6 +753,10 @@ function App() {
           onClose={() => setShowOutput(false)}
           chartInfo={operation}
         />}
+      {
+        loader &&
+        <WindowsLoader text={loadingMessage} />
+      }
     </div >
   );
 }

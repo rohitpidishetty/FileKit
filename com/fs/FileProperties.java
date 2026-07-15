@@ -29,37 +29,6 @@ public class FileProperties {
       UserPrincipal owner = Files.getOwner(path);
       FileStore store = Files.getFileStore(path);
 
-      if (generateJson) {
-        new Json()
-          .build("Name", path.getFileName().toString())
-          .build("Extension", getExtension(path))
-          .build("Location", path.getParent().toString().replace("\\", "/"))
-          .build(
-            "Absolute Path",
-            path.toAbsolutePath().toString().replace("\\", "/")
-          )
-          .build("Size", attrs.size() + " bytes")
-          .build("Created", format(attrs.creationTime().toMillis()))
-          .build("Modified", format(attrs.lastModifiedTime().toMillis()))
-          .build("Accessed", format(attrs.lastAccessTime().toMillis()))
-          .build("Readable", yesNo(Files.isReadable(path)))
-          .build("Writable", yesNo(Files.isWritable(path)))
-          .build("Executable", yesNo(Files.isExecutable(path)))
-          .build("Hidden", yesNo(Files.isHidden(path)))
-          .build("Regular File", yesNo(attrs.isRegularFile()))
-          .build("Directory", yesNo(attrs.isDirectory()))
-          .build("Symbolic Link", yesNo(attrs.isSymbolicLink()))
-          .build("Total Space", humanReadable(store.getTotalSpace()))
-          .build("Usable Space", humanReadable(store.getUsableSpace()))
-          .normalize(json -> {
-            JsonWriter.writeToJsonFile(
-              path.getFileName() +
-                "-props-report-" +
-                UUID.randomUUID().toString(),
-              json
-            );
-          });
-      }
       System.out.println(
         "======================================================"
       );
@@ -157,6 +126,38 @@ public class FileProperties {
       System.out.println(
         "======================================================"
       );
+
+      if (generateJson) {
+        new Json()
+          .build("Name", path.getFileName().toString())
+          .build("Extension", getExtension(path))
+          .build("Location", path.getParent().toString().replace("\\", "/"))
+          .build(
+            "Absolute Path",
+            path.toAbsolutePath().toString().replace("\\", "/")
+          )
+          .build("Size", attrs.size() + " bytes")
+          .build("Created", format(attrs.creationTime().toMillis()))
+          .build("Modified", format(attrs.lastModifiedTime().toMillis()))
+          .build("Accessed", format(attrs.lastAccessTime().toMillis()))
+          .build("Readable", yesNo(Files.isReadable(path)))
+          .build("Writable", yesNo(Files.isWritable(path)))
+          .build("Executable", yesNo(Files.isExecutable(path)))
+          .build("Hidden", yesNo(Files.isHidden(path)))
+          .build("Regular File", yesNo(attrs.isRegularFile()))
+          .build("Directory", yesNo(attrs.isDirectory()))
+          .build("Symbolic Link", yesNo(attrs.isSymbolicLink()))
+          .build("Total Space", humanReadable(store.getTotalSpace()))
+          .build("Usable Space", humanReadable(store.getUsableSpace()))
+          .normalize(json -> {
+            JsonWriter.writeToJsonFile(
+              path.getFileName() +
+                "-props-report-" +
+                UUID.randomUUID().toString(),
+              json
+            );
+          });
+      }
     } catch (IOException e) {
       System.err.println("[ERROR] " + e.getMessage());
     }
