@@ -2,14 +2,14 @@
   "name": "filekit",
   "productName": "filekit",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "A modern file management and analytics application",
   "main": ".webpack/main",
   "private": true,
   "scripts": {
     "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
+    "package": "electron-forge package --platform=win32 --arch=x64",
+    "make": "electron-forge make --platform=win32 --arch=x64",
+    "publish": "electron-forge publish --platform=win32 --arch=x64",
     "lint": "echo \"No linting configured\""
   },
   "keywords": [],

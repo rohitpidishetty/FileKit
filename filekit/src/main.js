@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const path = require('node:path');
 const fs = require('node:fs');
 const fileSys = require("fs/promises");
@@ -7,29 +7,58 @@ const { execFile } = require("node:child_process");
 if (require('electron-squirrel-startup'))
   app.quit();
 
+Menu.setApplicationMenu(null);
+
+function getJarPath() {
+  return app.isPackaged
+    ? path.join(
+      process.resourcesPath,
+      "binaries",
+      "FileKit.jar"
+    )
+    : path.join(
+      process.cwd(),
+      "resources",
+      "binaries",
+      "FileKit.jar"
+    );
+}
 
 
-
-const mainWindow = new BrowserWindow({
-  width: 1200,
-  height: 800,
-
-  icon: path.join(__dirname, "assets", "FileKit.png"),
-
-  webPreferences: {
-    preload: path.join(__dirname, "preload.js"),
-  },
-});
+function getJavaPath() {
+  const executable =
+    process.platform === "win32"
+      ? "java.exe"
+      : "java";
 
 
+  return app.isPackaged
+    ? path.join(
+      process.resourcesPath,
+      "runtime", "bin",
+      executable
+    )
+    : path.join(
+      process.cwd(),
+      "resources",
+      "runtime", "bin",
+      executable
+    );
+}
 
 ipcMain.handle("filekit:jar-exists", () => {
-  const jarPath = path.join(process.cwd(), "src", "binaries", "FileKit.jar");
+  const jarPath = getJarPath();
+  const javaPath = getJavaPath();
+  const exists = fs.existsSync(jarPath);
+  const javaExists = fs.existsSync(javaPath);
 
-  return {
-    exists: fs.existsSync(jarPath),
-    path: jarPath,
-  };
+  if (exists && javaExists)
+    return {
+      exists,
+      path: jarPath,
+    };
+
+  return null;
 });
 
 ipcMain.handle("dialog:open", async (_event, type) => {
@@ -45,32 +74,84 @@ ipcMain.handle("dialog:open", async (_event, type) => {
   return result.canceled ? null : result.filePaths[0];
 });
 
-ipcMain.handle("filekit:run", async (_event, args) => {
+// Development
+// ipcMain.handle("filekit:run", async (_event, args) => {
 
-  const jarPath = path.join(
-    process.cwd(),
-    "src",
-    "binaries",
-    "FileKit.jar"
-  );
+//   const jarPath = getJarPath();
+
+
+//   return new Promise((resolve, reject) => {
+
+//     execFile(
+//       "java",
+//       [
+//         "-Dfile.encoding=UTF-8",
+//         "-Dstdout.encoding=UTF-8",
+//         "-Dstderr.encoding=UTF-8",
+//         "-jar",
+//         jarPath,
+//         ...args,
+//       ],
+//       { windowsHide: true },
+//       (error, stdout, stderr) => {
+//         if (error) {
+//           reject(new Error(stderr?.trim() || error.message));
+//           return;
+//         }
+
+//         resolve({
+//           output: stdout.trim(),
+//           error: stderr.trim(),
+//         });
+//       }
+//     );
+//   });
+// });
+
+
+// Production
+ipcMain.handle("filekit:run", async (_event, args = []) => {
+  const jarPath = getJarPath();
+  const javaPath = getJavaPath();
+
+  if (!fs.existsSync(javaPath))
+    throw new Error(`Bundled Java runtime not found: ${javaPath}`);
+
+
+  if (!fs.existsSync(jarPath))
+    throw new Error(`FileKit.jar not found: ${jarPath}`);
+
+
+  if (!Array.isArray(args))
+    throw new Error("Invalid FileKit arguments.");
 
 
   return new Promise((resolve, reject) => {
-
     execFile(
-      "java",
+      javaPath,
       [
         "-Dfile.encoding=UTF-8",
         "-Dstdout.encoding=UTF-8",
         "-Dstderr.encoding=UTF-8",
         "-jar",
         jarPath,
-        ...args,
+        ...args.map(String),
       ],
-      { windowsHide: true },
+      {
+        windowsHide: true,
+        cwd: path.dirname(jarPath),
+        encoding: "utf8",
+        maxBuffer: 500 * 1024 * 1024, // 500 MB
+      },
       (error, stdout, stderr) => {
         if (error) {
-          reject(new Error(stderr?.trim() || error.message));
+          reject(
+            new Error(
+              stderr?.trim() ||
+              error.message ||
+              "FileKit execution failed."
+            )
+          );
           return;
         }
 
@@ -83,26 +164,53 @@ ipcMain.handle("filekit:run", async (_event, args) => {
   });
 });
 
-
 ipcMain.handle("read-file", async (_, filePath) => {
   return await fileSys.readFile(filePath, "utf8");
 });
 
-const createWindow = () => {
-  const mainWindow = new BrowserWindow({
+
+
+let splash;
+let mainWindow;
+
+function createWindow() {
+  splash = new BrowserWindow({
+    width: 500,
+    height: 300,
+    frame: false,
+    transparent: true,
+    alwaysOnTop: true,
+    resizable: false,
+    movable: false,
+  });
+
+  const loadingPath = app.isPackaged
+    ? path.join(process.resourcesPath, "loading.html")
+    : path.join(__dirname, "../../src/loading.html");
+
+  splash.loadFile(loadingPath);
+
+  mainWindow = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 800,
+    show: false,
+    icon: path.join(__dirname, "assets", "FileKit.png"),
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       contextIsolation: true,
       nodeIntegration: false,
+      devTools: false,
     },
   });
 
+  mainWindow.maximize();
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  mainWindow.webContents.openDevTools();
-};
+  mainWindow.once("ready-to-show", () => {
+    splash.destroy();
+    mainWindow.show();
+  });
+}
 
 
 app.whenReady().then(() => {
