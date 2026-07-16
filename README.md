@@ -15,7 +15,7 @@ A modern, high-performance desktop application for intelligent file management, 
 ![Java](https://img.shields.io/badge/Java-17+-orange)
 ![Electron](https://img.shields.io/badge/Electron-Latest-47848F)
 ![React](https://img.shields.io/badge/React-19-61DAFB)
-![License](https://img.shields.io/badge/License-MIT-green)
+![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 ![Version](https://img.shields.io/badge/Version-v1.0.0-success)
 
 </p>
