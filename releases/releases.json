@@ -14,6 +14,10 @@
             {
               "url": "#",
               "type": "zip (n MB)"
+            },
+            {
+              "url": "#",
+              "type": "nupkg (n MB)"
             }
           ]
         }
@@ -29,6 +33,10 @@
             {
               "url": "#",
               "type": "zip (156 MB)"
+            },
+            {
+              "url": "#",
+              "type": "nupkg (151 MB)"
             }
           ]
         }
