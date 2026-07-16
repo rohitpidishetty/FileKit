@@ -1,5 +1,6 @@
 # <p align="center">
-  <img src="../docs/FileKit.png" alt="FileKit Logo" width="120">
+
+  <img src="./docs/FileKit.png" alt="FileKit Logo" width="120">
 </p>
 
 <h1 align="center">FileKit</h1>
@@ -89,25 +90,25 @@ The application combines the performance of Java with the modern user experience
 
 ## Storage Analytics
 
-![Analytics](../docs/screenshots/screenshot-a.png)
+![Analytics](./docs/screenshots/screenshot-a.png)
 
 ---
 
 ## File Organization
 
-![Organize](../docs/screenshots/screenshot-b.png)
+![Organize](./docs/screenshots/screenshot-b.png)
 
 ---
 
 ## Largest Files
 
-![Largest Files](../docs/screenshots/screenshot-c.png)
+![Largest Files](./docs/screenshots/screenshot-c.png)
 
 ---
 
 ## Settings
 
-![Settings](../docs/screenshots/screenshot-d.png)
+![Settings](./docs/screenshots/screenshot-d.png)
 
 ---
 
@@ -121,14 +122,14 @@ https://github.com/rohitpidishetty/FileKit/releases/
 
 # System Requirements
 
-| Requirement | Minimum |
-|-------------|----------|
+| Requirement      | Minimum                 |
+| ---------------- | ----------------------- |
 | Operating System | Windows 10 / Windows 11 |
-| RAM | 4 GB |
-| Recommended RAM | 8 GB |
-| Processor | Dual Core |
-| Disk Space | 500 MB |
-| Java | Bundled with Installer |
+| RAM              | 4 GB                    |
+| Recommended RAM  | 8 GB                    |
+| Processor        | Dual Core               |
+| Disk Space       | 500 MB                  |
+| Java             | Bundled with Installer  |
 
 ---
 
@@ -199,17 +200,17 @@ Launch FileKit.
 
 # Available Operations
 
-| Operation | Description |
-|------------|-------------|
-| Analyze | Analyze folder statistics |
-| Organize | Organize files by type |
-| Largest Files | Find largest files |
-| Tree | Generate folder tree |
-| Create File | Create new file |
-| Move File | Move files |
-| Remove Empty Directories | Delete empty folders |
-| Properties | View file information |
-| JSON Export | Export reports |
+| Operation                | Description               |
+| ------------------------ | ------------------------- |
+| Analyze                  | Analyze folder statistics |
+| Organize                 | Organize files by type    |
+| Largest Files            | Find largest files        |
+| Tree                     | Generate folder tree      |
+| Create File              | Create new file           |
+| Move File                | Move files                |
+| Remove Empty Directories | Delete empty folders      |
+| Properties               | View file information     |
+| JSON Export              | Export reports            |
 
 ---
 
