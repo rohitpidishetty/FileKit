@@ -1,0 +1,83 @@
+{
+  "windows": {
+    "title": "Windows",
+    "description": "Windows 10 & Windows 11",
+    "binaries": {
+      "intel64": [
+        {
+          "version": "1.0.0",
+          "releases": [
+            {
+              "url": "link",
+              "type": "exe"
+            },
+            {
+              "url": "link",
+              "type": "zip"
+            }
+          ]
+        },
+        {
+          "version": "1.0.1",
+          "releases": []
+        }
+      ],
+      "arm64": [
+        {
+          "version": "1.0.0",
+          "releases": [
+            {
+              "url": "link",
+              "type": "exe"
+            },
+            {
+              "url": "link",
+              "type": "zip"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "linux": {
+    "title": "Linux",
+    "description": "Ubuntu, Debian & compatible distributions",
+    "binaries": {}
+  },
+  "mac": {
+    "title": "macOS",
+    "description": "macOS Monterey or later",
+    "binaries": {
+      "intel64": [
+        {
+          "version": "1.0.0",
+          "releases": [
+            {
+              "url": "link",
+              "type": "exe"
+            },
+            {
+              "url": "link",
+              "type": "zip"
+            }
+          ]
+        }
+      ],
+      "arm64": [
+        {
+          "version": "1.0.0",
+          "releases": [
+            {
+              "url": "link",
+              "type": "exe"
+            },
+            {
+              "url": "link",
+              "type": "zip"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
