@@ -1,5 +1,5 @@
 # <p align="center">
-  <img src="docs/logo.png" alt="FileKit Logo" width="120">
+  <img src="docs/FileKit.png" alt="FileKit Logo" width="120">
 </p>
 
 <h1 align="center">FileKit</h1>
@@ -95,25 +95,25 @@ The application combines the performance of Java with the modern user experience
 
 ## Storage Analytics
 
-![Analytics](docs/screenshots/analytics.png)
+![Analytics](docs/screenshots/screenshot-a.png)
 
 ---
 
 ## File Organization
 
-![Organize](docs/screenshots/organize.png)
+![Organize](docs/screenshots/screenshot-b.png)
 
 ---
 
 ## Largest Files
 
-![Largest Files](docs/screenshots/largest-files.png)
+![Largest Files](docs/screenshots/screenshot-c.png)
 
 ---
 
 ## Settings
 
-![Settings](docs/screenshots/settings.png)
+![Settings](docs/screenshots/screenshot-d.png)
 
 ---
 
@@ -121,7 +121,7 @@ The application combines the performance of Java with the modern user experience
 
 Download the latest version from GitHub Releases.
 
-https://github.com/YOUR_USERNAME/FileKit/releases/latest
+https://github.com/rohitpidishetty/FileKit/releases/
 
 ---
 
