@@ -8,18 +8,14 @@
           "version": "1.0.0",
           "releases": [
             {
-              "url": "link",
-              "type": "exe"
+              "url": "#",
+              "type": "exe (n MB)"
             },
             {
-              "url": "link",
-              "type": "zip"
+              "url": "#",
+              "type": "zip (n MB)"
             }
           ]
-        },
-        {
-          "version": "1.0.1",
-          "releases": []
         }
       ],
       "arm64": [
@@ -27,12 +23,12 @@
           "version": "1.0.0",
           "releases": [
             {
-              "url": "link",
-              "type": "exe"
+              "url": "#",
+              "type": "exe (151 MB)"
             },
             {
-              "url": "link",
-              "type": "zip"
+              "url": "#",
+              "type": "zip (156 MB)"
             }
           ]
         }
@@ -47,37 +43,6 @@
   "mac": {
     "title": "macOS",
     "description": "macOS Monterey or later",
-    "binaries": {
-      "intel64": [
-        {
-          "version": "1.0.0",
-          "releases": [
-            {
-              "url": "link",
-              "type": "exe"
-            },
-            {
-              "url": "link",
-              "type": "zip"
-            }
-          ]
-        }
-      ],
-      "arm64": [
-        {
-          "version": "1.0.0",
-          "releases": [
-            {
-              "url": "link",
-              "type": "exe"
-            },
-            {
-              "url": "link",
-              "type": "zip"
-            }
-          ]
-        }
-      ]
-    }
+    "binaries": {}
   }
 }
