@@ -422,7 +422,7 @@ Upcoming features include:
 Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/FileKit.git
+git clone https://github.com/rohitpidishetty/FileKit.git
 ```
 
 Install dependencies
@@ -456,7 +456,7 @@ Every release includes:
 
 Download the latest release from:
 
-https://github.com/YOUR_USERNAME/FileKit/releases
+https://github.com/rohitpidishetty/FileKit/releases
 
 ---
 
@@ -521,7 +521,7 @@ If you find FileKit useful, consider:
 
 GitHub:
 
-https://github.com/YOUR_USERNAME
+https://github.com/rohitpidishetty
 
 ---
 
