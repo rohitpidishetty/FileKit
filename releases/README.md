@@ -1,5 +1,5 @@
 # <p align="center">
-  <img src="docs/FileKit.png" alt="FileKit Logo" width="120">
+  <img src="../docs/FileKit.png" alt="FileKit Logo" width="120">
 </p>
 
 <h1 align="center">FileKit</h1>
@@ -89,31 +89,31 @@ The application combines the performance of Java with the modern user experience
 
 ## Dashboard
 
-![Dashboard](docs/screenshots/dashboard.png)
+![Dashboard](../docs/screenshots/dashboard.png)
 
 ---
 
 ## Storage Analytics
 
-![Analytics](docs/screenshots/screenshot-a.png)
+![Analytics](../docs/screenshots/screenshot-a.png)
 
 ---
 
 ## File Organization
 
-![Organize](docs/screenshots/screenshot-b.png)
+![Organize](../docs/screenshots/screenshot-b.png)
 
 ---
 
 ## Largest Files
 
-![Largest Files](docs/screenshots/screenshot-c.png)
+![Largest Files](../docs/screenshots/screenshot-c.png)
 
 ---
 
 ## Settings
 
-![Settings](docs/screenshots/screenshot-d.png)
+![Settings](../docs/screenshots/screenshot-d.png)
 
 ---
 
