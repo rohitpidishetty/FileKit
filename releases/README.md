@@ -87,12 +87,6 @@ The application combines the performance of Java with the modern user experience
 
 # Screenshots
 
-## Dashboard
-
-![Dashboard](../docs/screenshots/dashboard.png)
-
----
-
 ## Storage Analytics
 
 ![Analytics](../docs/screenshots/screenshot-a.png)
