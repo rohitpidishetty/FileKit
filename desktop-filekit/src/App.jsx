@@ -18,7 +18,7 @@ const navItems = [
 function App() {
 
   const [utilities, setUtilities] = useState(() => tools);
-
+  const [executionStatus, setExecutionStatus] = useState("Run Utility");
   const [activeNav, setActiveNav] = useState("home");
   const [search, setSearch] = useState("");
   const [selectedUtility, setSelectedUtility] = useState(null);
@@ -44,6 +44,7 @@ function App() {
   const [sourceInput, setSourceInput] = useState(true);
   const [inputBox, setInputBox] = useState(false);
   const [fileName, setFileName] = useState(null);
+  const execute = useRef(null);
 
   var ref = useRef({
     path: "D:\\",
@@ -193,10 +194,15 @@ function App() {
     setFileName(null);
     ref.current.path = "D:\\";
     dest.current.path = "C:\\";
+    setLoader(false);
+    setExecutionStatus("Run Utility");
+    execute.current.disabled = false;
   }
 
   const executeUtility = async (utility) => {
-
+    setLoader(true);
+    setExecutionStatus("Running..");
+    execute.current.disabled = true;
     let activityCommand = "";
     let activityTime = new Date().getTime();
     let activityName = utility.title;
@@ -264,11 +270,11 @@ function App() {
         try {
           setLoadingMessage("File segregation in-progress, please wait !")
           setRunning(true);
-          setLoader(true);
+
           let args = ["-seg", path, destination];
           activityCommand = ["filekit", ...args].join(" ");
           const result = await window.electronAPI.issueFileKitCommand(args);
-          setLoader(false);
+
 
           executionHelper(result);
         }
@@ -285,11 +291,11 @@ function App() {
         try {
           setLoadingMessage("Removing duplicate files, please wait !");
           setRunning(true);
-          setLoader(true);
+
           let args = ["-rmdf", path];
           activityCommand = ["filekit", ...args].join(" ");
           const result = await window.electronAPI.issueFileKitCommand(args);
-          setLoader(false);
+
           executionHelper(result);
         }
         catch (error) {
@@ -305,11 +311,10 @@ function App() {
         try {
           setLoadingMessage("Transferring files, please wait !");
           setRunning(true);
-          setLoader(true);
           let args = ["-mv", path, destination];
           activityCommand = ["filekit", ...args].join(" ");
           const result = await window.electronAPI.issueFileKitCommand(args);
-          setLoader(false);
+
           executionHelper(result);
           alert("Transfer completed.");
         }
@@ -333,11 +338,11 @@ function App() {
         try {
           setLoadingMessage("Creating file, please wait !");
           setRunning(true);
-          setLoader(true);
+
           let args = ["-create", fileName, destination];
           activityCommand = ["filekit", ...args].join(" ");
           const result = await window.electronAPI.issueFileKitCommand(args);
-          setLoader(false);
+
           executionHelper(result);
           alert("File created.");
         }
@@ -608,9 +613,7 @@ function App() {
                   <h3>{selectedUtility.title}</h3>
                 </div>
 
-                <button type="button" className="more-button">
-                  •••
-                </button>
+
               </div>
 
               <p className="details-description">
@@ -708,9 +711,9 @@ function App() {
               }
 
 
-              <button onClick={() => executeUtility(selectedUtility)} className="run-button" type="button">
+              <button ref={execute} onClick={() => executeUtility(selectedUtility)} className="run-button" type="button">
                 <span>▶</span>
-                Run Utility
+                {executionStatus}
               </button>
 
               <div className="recent-activity">
