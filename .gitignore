@@ -3,7 +3,7 @@
 .vscode/
 reports/
 .json
-# .*
+.*
 
 # Logs
 logs
@@ -108,7 +108,7 @@ jre-*/
 jdk-*/
 
 # Java archives
-# *.jar
+*.jar
 *.war
 *.ear
 
