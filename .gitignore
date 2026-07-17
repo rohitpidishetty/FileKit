@@ -108,7 +108,7 @@ jre-*/
 jdk-*/
 
 # Java archives
-*.jar
+# *.jar
 *.war
 *.ear
 
