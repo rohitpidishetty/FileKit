@@ -171,14 +171,11 @@ ipcMain.handle("read-file", async (_, filePath) => {
       process.resourcesPath,
       filePath
     )
-    : (process.platform === "win32" ? path.join(
+    : path.join(
       process.cwd(),
       "resources",
       filePath
-    ) : path.join(
-      process.cwd(),
-      filePath
-    ));
+    );
 
   return await fileSys.readFile(finalPath, "utf8");
 });
