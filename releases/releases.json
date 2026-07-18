@@ -8,16 +8,16 @@
           "version": "1.0.0",
           "releases": [
             {
-              "url": "#",
-              "type": "exe (n MB)"
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/untagged-6e6861242a2f9ea02137/filekit-1.0.0-full-intel64-winOS.nupkg",
+              "type": "nupkg (151 MB)"
             },
             {
-              "url": "#",
-              "type": "zip (n MB)"
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/untagged-6e6861242a2f9ea02137/FileKit-intel64-setup-winOS.exe",
+              "type": "exe (152 MB)"
             },
             {
-              "url": "#",
-              "type": "nupkg (n MB)"
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/untagged-6e6861242a2f9ea02137/filekit-intel64-winOS.zip",
+              "type": "zip (156 MB)"
             }
           ]
         }
@@ -27,16 +27,16 @@
           "version": "1.0.0",
           "releases": [
             {
-              "url": "#",
-              "type": "exe (151 MB)"
-            },
-            {
-              "url": "#",
-              "type": "zip (156 MB)"
-            },
-            {
-              "url": "#",
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/untagged-6e6861242a2f9ea02137/filekit-1.0.0-full-arms64-winOS.nupkg",
               "type": "nupkg (151 MB)"
+            },
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/untagged-6e6861242a2f9ea02137/FileKit-arm64-setup-winOS.exe",
+              "type": "exe (152 MB)"
+            },
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/untagged-6e6861242a2f9ea02137/filekit-arm64-winOS.zip",
+              "type": "zip (156 MB)"
             }
           ]
         }
@@ -51,6 +51,22 @@
   "mac": {
     "title": "macOS",
     "description": "macOS Monterey or later",
-    "binaries": {}
+    "binaries": {
+      "arm64": [
+        {
+          "version": "1.0.0",
+          "releases": [
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/untagged-6e6861242a2f9ea02137/filekit-arm64-macOS.zip",
+              "type": "zip (133 MB)"
+            },
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/untagged-6e6861242a2f9ea02137/filekit-darwin-x64-macOS.zip",
+              "type": "zip (135 MB)"
+            }
+          ]
+        }
+      ]
+    }
   }
 }
