@@ -165,10 +165,32 @@ ipcMain.handle("filekit:run", async (_event, args = []) => {
 });
 
 ipcMain.handle("read-file", async (_, filePath) => {
-  return await fileSys.readFile(filePath, "utf8");
+  // console.log(process.cwd() + " <>")
+  const finalPath = app.isPackaged
+    ? path.join(
+      process.resourcesPath,
+      filePath
+    )
+    : (process.platform === "win32" ? path.join(
+      process.cwd(),
+      "resources",
+      filePath
+    ) : path.join(
+      process.cwd(),
+      filePath
+    ));
+
+  return await fileSys.readFile(finalPath, "utf8");
 });
 
 
+// getPlatform: () => ipcRenderer.invoke("os:arch")
+
+
+ipcMain.handle("os:arch", () => {
+  // console.log(process.platform)
+  return process.platform;
+});
 
 let splash;
 let mainWindow;
@@ -213,6 +235,8 @@ function createWindow() {
 
   mainWindow.maximize();
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+
+  // mainWindow.webContents.openDevTools();
 
   mainWindow.once("ready-to-show", () => {
     splash.destroy();

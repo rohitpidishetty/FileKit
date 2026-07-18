@@ -166,16 +166,15 @@ ipcMain.handle("filekit:run", async (_event, args = []) => {
 });
 
 ipcMain.handle("read-file", async (_, filePath) => {
-  // console.log(process.resourcesPath, filePath)
   const finalPath = app.isPackaged
     ? path.join(
-        process.resourcesPath,
-        filePath
-      )
+      process.resourcesPath,
+      filePath
+    )
     : path.join(
-        process.cwd(),
-        filePath
-      );
+      process.cwd(),
+      filePath
+    );
 
   return await fileSys.readFile(finalPath, "utf8");
 });
@@ -224,7 +223,7 @@ function createWindow() {
 
   mainWindow.maximize();
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  
+
   // mainWindow.webContents.openDevTools();
 
   mainWindow.once("ready-to-show", () => {

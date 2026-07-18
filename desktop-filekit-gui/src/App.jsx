@@ -200,7 +200,7 @@ function App() {
   }
 
   const executeUtility = async (utility) => {
-    setLoader(true);
+
     setExecutionStatus("Running..");
     execute.current.disabled = true;
     let activityCommand = "";
@@ -215,6 +215,7 @@ function App() {
           alert("Please specify the file or folder path.")
           return;
         }
+        setLoader(true);
 
         try {
           setRunning(true);
@@ -226,6 +227,7 @@ function App() {
         catch (error) {
           // console.log(error);
           status = "Suspended";
+          setLoader(false);
         }
         break;
       case "tree":
@@ -233,6 +235,7 @@ function App() {
           alert("Please specify the file or folder path.")
           return;
         }
+        setLoader(true);
         try {
           setRunning(true);
           let args = ["-tree", path];
@@ -241,8 +244,9 @@ function App() {
           executionHelper(result);
         }
         catch (error) {
-          console.log(error);
+          // console.log(error);
           status = "Suspended";
+          setLoader(false);
         }
         break;
       case "top files":
@@ -250,6 +254,7 @@ function App() {
           alert("Please specify the file or folder path.")
           return;
         }
+        setLoader(true);
         try {
           setRunning(true);
           let args = ["-top", limit, path, argsFormat(unit), "-path", "-json"];
@@ -260,6 +265,7 @@ function App() {
         catch (error) {
           // console.log(error);
           status = "Suspended";
+          setLoader(false);
         }
         break;
       case "segregation":
@@ -267,6 +273,7 @@ function App() {
           alert("Please specify the source & destination folder path.")
           return;
         }
+        setLoader(true);
         try {
           setLoadingMessage("File segregation in-progress, please wait !")
           setRunning(true);
@@ -281,6 +288,7 @@ function App() {
         catch (error) {
           // console.log(error);
           status = "Suspended";
+          setLoader(false);
         }
         break;
       case "remove duplicate files":
@@ -288,6 +296,7 @@ function App() {
           alert("Please specify the source folder path.")
           return;
         }
+        setLoader(true);
         try {
           setLoadingMessage("Removing duplicate files, please wait !");
           setRunning(true);
@@ -301,6 +310,7 @@ function App() {
         catch (error) {
           // console.log(error);
           status = "Suspended";
+          setLoader(false);
         }
         break;
       case "move":
@@ -308,6 +318,7 @@ function App() {
           alert("Please specify the source & destination folder path.")
           return;
         }
+        setLoader(true);
         try {
           setLoadingMessage("Transferring files, please wait !");
           setRunning(true);
@@ -321,6 +332,7 @@ function App() {
         catch (error) {
           // console.log(error);
           status = "Suspended";
+          setLoader(false);
         }
         break;
       case "create":
@@ -328,6 +340,7 @@ function App() {
           alert("Please specify the file name & destination folder path.")
           return;
         }
+        setLoader(true);
         const regex = /^[a-zA-Z0-9._ -]+$/;
 
 
@@ -349,6 +362,7 @@ function App() {
         catch (error) {
           // console.log(error);
           status = "Suspended";
+          setLoader(false);
         }
         break;
       case "properties":
@@ -356,6 +370,7 @@ function App() {
           alert("Please specify the file or folder path.")
           return;
         }
+        setLoader(true);
         try {
           setRunning(true);
           let args = ["-props", path];
@@ -366,6 +381,7 @@ function App() {
         catch (error) {
           // console.log(error);
           status = "Suspended";
+          setLoader(false);
         }
         break;
       case "statistics":
@@ -373,6 +389,7 @@ function App() {
           alert("Please specify the file or folder path.")
           return;
         }
+        setLoader(true);
         try {
           setRunning(true);
           let args = ["-stats", path, "-json"];
@@ -383,6 +400,7 @@ function App() {
         catch (error) {
           // console.log(error);
           status = "Suspended";
+          setLoader(false);
         }
         break;
       default:

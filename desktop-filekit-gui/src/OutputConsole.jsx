@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./OutputConsole.css";
 import StorageChart from "./StorageChart";
 
@@ -14,11 +14,13 @@ function OutputConsole({
 
   let path = output?.split("\n");
   path = path[path?.length - 1];
+
   if (new String(path).startsWith("File generated at")) {
     path = path.replace("File generated at", "").trim();
-    path = `resources/binaries/${path}`;
+    path = `binaries/${path}`;
   }
   else path = null;
+
 
   return (
     <div className="console-overlay">

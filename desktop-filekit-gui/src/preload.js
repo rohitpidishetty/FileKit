@@ -9,6 +9,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
   openDialog: (type) => ipcRenderer.invoke("dialog:open", type),
   issueFileKitCommand: (args) => ipcRenderer.invoke("filekit:run", args),
   readFile: (path) => ipcRenderer.invoke("read-file", path),
+  getPlatform: () => ipcRenderer.invoke("os:arch")
 });
 
 
