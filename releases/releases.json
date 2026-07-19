@@ -46,7 +46,23 @@
   "linux": {
     "title": "Linux",
     "description": "Ubuntu, Debian & compatible distributions",
-    "binaries": {}
+    "binaries": {
+      "arm64": [
+        {
+          "version": "1.0.0",
+          "releases": [
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.0/filekit-1.0.0-1.x86_64.rpm",
+              "type": "rpm (110 MB)"
+            },
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.0/filekit-linux-x64.zip",
+              "type": "zip (138 MB)"
+            }
+          ]
+        }
+      ]
+    }
   },
   "mac": {
     "title": "macOS",

@@ -10,3 +10,10 @@ This directory contains the Electron.js application that provides the graphical 
 |-src
     |-....
 ```
+
+
+### Mac OS Installation
+```bash
+sudo xattr -dr com.apple.quarantine ~/filekit.app
+```
+Make sure to enter this command, it enables the software to generate json reports by allowing file i/o operations. 
