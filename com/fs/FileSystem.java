@@ -1,6 +1,6 @@
 package com.fs;
 
-import com.fs.squash.Squash;
+import com.squash.Squash;
 import java.io.File;
 
 public class FileSystem {

@@ -1,4 +1,4 @@
-package com.fs.squash.compressor.std_target_output;
+package com.squash.compressor.std_target_output;
 
 import java.io.DataOutput;
 import java.io.DataOutputStream;

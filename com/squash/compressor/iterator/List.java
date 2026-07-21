@@ -1,4 +1,4 @@
-package com.fs.squash.compressor.iterator;
+package com.squash.compressor.iterator;
 
 import java.io.File;
 import java.util.ArrayList;

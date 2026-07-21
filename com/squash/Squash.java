@@ -1,12 +1,12 @@
-package com.fs.squash;
+package com.squash;
 
-import com.fs.squash.compressor.engine.FileReader;
-import com.fs.squash.compressor.engine.QueueBuilder;
-import com.fs.squash.compressor.engine.TreeBuilder;
-import com.fs.squash.compressor.engine.TreeNodeTuple;
-import com.fs.squash.compressor.iterator.List;
-import com.fs.squash.compressor.std_target_output.SquashFileWriter;
-import com.fs.squash.decompressor.engine.SquashReader;
+import com.squash.compressor.engine.FileReader;
+import com.squash.compressor.engine.QueueBuilder;
+import com.squash.compressor.engine.TreeBuilder;
+import com.squash.compressor.engine.TreeNodeTuple;
+import com.squash.compressor.iterator.List;
+import com.squash.compressor.std_target_output.SquashFileWriter;
+import com.squash.decompressor.engine.SquashReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.fs.squash.decompressor.engine;
+package com.squash.decompressor.engine;
 
 import java.io.DataInputStream;
 import java.io.File;

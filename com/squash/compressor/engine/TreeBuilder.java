@@ -1,4 +1,4 @@
-package com.fs.squash.compressor.engine;
+package com.squash.compressor.engine;
 
 import java.util.HashMap;
 import java.util.Map;

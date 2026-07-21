@@ -1,6 +1,6 @@
-package com.fs.squash.compressor.engine;
+package com.squash.compressor.engine;
 
-import com.fs.squash.compressor.std_target_output.SquashFileWriter;
+import com.squash.compressor.std_target_output.SquashFileWriter;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
