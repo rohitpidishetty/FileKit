@@ -14,7 +14,7 @@ public class SquashFileWriter {
 
   public SquashFileWriter(File tar, String TARGET_FILE) throws Exception {
     this.tar = tar;
-    this.fos = new FileOutputStream(TARGET_FILE);
+    this.fos = new FileOutputStream(tar.getAbsolutePath());
     this.dos = new DataOutputStream(fos);
   }
 

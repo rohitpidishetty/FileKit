@@ -18,12 +18,21 @@ public class SquashReader {
     this.file = file;
   }
 
-  public void readAndWriteFile(String targetFolder) throws Exception {
+  public void readAndWriteFile(String targetFolder, String dest)
+    throws Exception {
+    // System.out.println(targetFolder + " , " + dest);
+    System.out.println(this.file.getName() + " " + this.file.getAbsolutePath());
+    // System.exit(1);
     FileInputStream fis = new FileInputStream(this.file);
     DataInputStream dInp = new DataInputStream(fis);
     System.out.println("Decompressing..");
-    File file = new File(targetFolder);
+    File targetPath = new File(dest);
+    targetPath.mkdirs();
+
+    File file = new File(targetPath, targetFolder);
     if (!file.exists()) file.mkdirs();
+
+    // System.out.println("Ok until");
 
     if (!new String(dInp.readNBytes(dInp.readInt())).equals("squash")) {
       fis.close();

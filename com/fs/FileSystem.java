@@ -126,18 +126,18 @@ public class FileSystem {
           );
           break;
         case "-squash":
+          if (args.length != 4) {
+            printUsage();
+            System.exit(1);
+          }
+          new Squash(new String[] { "-compress", args[1], args[2], args[3] });
+          break;
+        case "-desquash":
           if (args.length != 3) {
             printUsage();
             System.exit(1);
           }
-          new Squash(new String[] { "-compress", args[1], args[2] });
-          break;
-        case "-desquash":
-          if (args.length != 2) {
-            printUsage();
-            System.exit(1);
-          }
-          new Squash(new String[] { "-decompress", args[1] });
+          new Squash(new String[] { "-decompress", args[1], args[2] });
           break;
         case "-top":
           LargestFileCalculator larFileCal = new LargestFileCalculator();

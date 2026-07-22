@@ -22,23 +22,27 @@ public class Squash {
       System.out.println(
         """
         Enter the following command to compress
-        ./squash -compress ~\\folder-path target-name
+        ./squash -compress ~\\folder-path target-name ~\\destination-path
 
         To decompress
-        ./squash -decompress ~\\target-name.tar.sq
+        ./squash -decompress ~\\target-name.tar.sq ~\\destination-path
         """
       );
       return;
     }
     if (args[0].equals("-compress")) {
-      if (args.length != 3) {
+      if (args.length != 4) {
         System.out.println(
           """
           Enter the following command to compress
-          ./squash -compress ~\\folder-path target-name
+          ./squash -compress ~\\folder-path target-name ~\\destination-path
           """
         );
         return;
+      }
+      File dest = new File(args[3]);
+      if (!dest.isDirectory()) {
+        dest.mkdirs();
       }
       File file = new File(args[1]);
       if (!file.exists()) {
@@ -46,11 +50,14 @@ public class Squash {
           "%s not found, make sure the path is valid\n",
           args[1]
         );
+        System.exit(1);
       }
       try {
         String TARGET_FILE = args[2] + ".tar.sq";
-        File targetFile = new File(TARGET_FILE);
+        File targetFile = new File(args[3], TARGET_FILE);
+
         targetFile.createNewFile();
+
         SquashFileWriter sqfw = new SquashFileWriter(targetFile, TARGET_FILE);
         sqfw.commit_header();
         String base_dir;
@@ -80,11 +87,11 @@ public class Squash {
         System.out.println(e.getMessage());
       }
     } else if (args[0].equals("-decompress")) {
-      if (args.length != 2) {
+      if (args.length != 3) {
         System.out.println(
           """
           Enter the following command to compress
-          ./squash -decompress ~\\target-name.tar.sq
+          ./squash -decompress ~\\target-name.tar.sq ~\\destination-path
           """
         );
         return;
@@ -95,10 +102,11 @@ public class Squash {
         System.exit(1);
       }
       try {
-        String[] folderTokens = args[1].split("[.]");
+        String[] folderTokens = sqFile.getName().split("[.]");
+
         new SquashReader(sqFile).readAndWriteFile(
-          "unsquashed_" +
-            (folderTokens[folderTokens.length - 3]).replaceAll("/", "")
+          "unsquashed_" + folderTokens[0],
+          args[2]
         );
       } catch (Exception e) {
         System.out.println(e.getLocalizedMessage());

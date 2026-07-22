@@ -38,10 +38,12 @@ public class FileReader {
         bitCount = 0;
       FileInputStream fis = new FileInputStream(file);
       byte[] arr = fis.readAllBytes();
+      // System.out.println(arr.length + " <>");
       this.dos.writeInt(arr.length); // original buffer length
       ArrayList<Byte> compressed = new ArrayList<>();
       for (byte b : arr) {
         String code = this.embeddings.get(b);
+        // System.out.println(code);
         if (code == null) {
           fis.close();
           throw new RuntimeException("Missing embedding for byte " + b);
@@ -66,7 +68,11 @@ public class FileReader {
 
       this.dos.writeInt(compressed.size()); // compressed bits length
       this.dos.writeInt(paddingBits); // extra padding len
-      for (Byte com : compressed) this.dos.write(com);
+      for (Byte com : compressed) {
+        // System.out.println(com);
+        this.dos.write(com);
+        // System.out.println(this.dos.size());
+      }
 
       System.out.printf("File %s compressed\n", fileName);
 
