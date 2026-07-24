@@ -331,3 +331,80 @@
 
   transform: translateY(-2px);
 }
+
+
+
+.mac-terminal {
+  max-width: 700px;
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #1e1e1e;
+  border: 1px solid #3a3a3a;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.terminal-header {
+  height: 38px;
+  background: #2b2b2b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.terminal-buttons {
+  position: absolute;
+  left: 14px;
+  display: flex;
+  gap: 8px;
+}
+
+.terminal-buttons span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+}
+
+.close {
+  background: #ff5f57;
+}
+
+.minimize {
+  background: #febc2e;
+}
+
+.maximize {
+  background: #28c840;
+}
+
+.terminal-title {
+  color: #bfbfbf;
+  font-size: 13px;
+  font-weight: 500;
+  user-select: none;
+}
+
+.terminal-body {
+  padding: 18px 20px;
+  color: #f8f8f2;
+  font-size: 12px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+.prompt {
+  color: #5ac8fa;
+}
+
+.path {
+  color: #ffffff;
+}
+
+.command {
+  color: #f8f8f2;
+}

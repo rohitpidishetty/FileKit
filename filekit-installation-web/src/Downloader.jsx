@@ -65,27 +65,30 @@ function Downloader({ platform }) {
       </p>
 
       {
-        Object.keys(current.binaries).map((e) => (
-          <button
-            key={e}
-            className={`architecture-chip ${chip === e ? "active" : ""}`}
-            onClick={() => {
-              setChip(e);
-              setVersions(current.binaries[e]);
-              setShowList(true);
-            }}
-          >
-            {e === "intel64" ? "Intel 64" : "ARM64"}
-          </button>
-        ))
+        Object
+          .keys(current.binaries)
+          .map((e) => (
+            <button
+              key={e}
+              className={`architecture-chip ${chip === e ? "active" : ""}`}
+              onClick={() => {
+                setChip(e);
+                setVersions(current.binaries[e]);
+                setShowList(true);
+              }}
+            >
+              {e}
+            </button>
+          ))
       }
+
+
 
       {
         showList && versions &&
 
         <select onChange={(E) => {
           try {
-
             setInstallerOptions(versions.filter(e => e.version === E.target.value)[0] || null);
             setShowInstallerOptions(true);
           } catch (err) { }
@@ -109,6 +112,30 @@ function Downloader({ platform }) {
 
 
 
+
+      {
+        current.title === "macOS" && (
+          <div className="mac-terminal">
+            <div className="terminal-header">
+              <div className="terminal-buttons">
+                <span className="close"></span>
+                <span className="minimize"></span>
+                <span className="maximize"></span>
+              </div>
+
+              <span className="terminal-title">Copy & Paste to enable GUI</span>
+            </div>
+
+            <div className="terminal-body">
+              <span className="prompt">rohit@MacBook</span>
+              <span className="path"> </span>
+              <span className="command">
+                sudo xattr -dr com.apple.quarantine ~/filekit.app
+              </span>
+            </div>
+          </div>
+        )
+      }
       <div className="release-info">
         <span>GPL v3</span>
         <span>•</span>

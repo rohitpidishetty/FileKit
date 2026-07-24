@@ -31,28 +31,30 @@ public class LZ77 {
   public static List<Token> compress(String input) {
     List<Token> tokens = new ArrayList<>();
     int position = 0;
+    int n = input.length();
 
-    while (position < input.length()) {
+    while (position < n) {
+      System.out.println(position);
       int bestDistance = 0;
       int bestLength = 0;
 
+      // (dist, len, char)
+
       int windowStart = Math.max(0, position - WINDOW_SIZE);
-      int maximumMatchLength = Math.min(
-        LOOKAHEAD_SIZE,
-        input.length() - position
-      );
+      int maximumMatchLength = Math.min(LOOKAHEAD_SIZE, n - position);
 
-      for (int matchStart = windowStart; matchStart < position; matchStart++) {
+      // System.out.println("| " + windowStart + " " + maximumMatchLength + " |");
+      int matchStart = windowStart;
+      while (matchStart < position) {
+        // System.out.println("\t" + matchStart);
         int distance = position - matchStart;
+        // System.out.println("\t\t" + distance);
         int length = 0;
-
         while (length < maximumMatchLength) {
-          int sourceIndex = matchStart + (length % distance);
-
-          if (input.charAt(sourceIndex) != input.charAt(position + length)) {
-            break;
-          }
-
+          if (
+            input.charAt(matchStart + (length % distance)) !=
+            input.charAt(position + length)
+          ) break;
           length++;
         }
 
@@ -60,22 +62,24 @@ public class LZ77 {
           bestLength = length;
           bestDistance = distance;
         }
+
+        matchStart++;
       }
 
       Character nextCharacter = null;
       int nextPosition = position + bestLength;
 
-      if (nextPosition < input.length()) {
-        nextCharacter = input.charAt(nextPosition);
-      }
+      if (nextPosition < input.length()) nextCharacter = input.charAt(
+        nextPosition
+      );
 
       tokens.add(new Token(bestDistance, bestLength, nextCharacter));
 
       position += bestLength;
 
-      if (nextCharacter != null) {
-        position++;
-      }
+      if (nextCharacter != null) position++;
+
+      // position++;
     }
 
     return tokens;
@@ -108,7 +112,7 @@ public class LZ77 {
   }
 
   public static void main(String[] args) {
-    String input = "ABABCABABCABABC";
+    String input = "abcdabcfgab";
 
     List<Token> compressed = compress(input);
 
