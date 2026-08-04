@@ -24,7 +24,6 @@ function getJarPath() {
     );
 }
 
-
 function getJavaPath() {
   const executable =
     process.platform === "win32"

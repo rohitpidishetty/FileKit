@@ -34,7 +34,7 @@ module.exports = {
       name: "@electron-forge/maker-squirrel",
 
       config: {
-        name: "filekit",
+        name: "Filekit",
         authors: "Er. P. Rohit V. Acharya",
         description:
           "A modern file management and analytics application",

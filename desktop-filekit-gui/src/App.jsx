@@ -44,6 +44,8 @@ function App() {
   const [sourceInput, setSourceInput] = useState(true);
   const [inputBox, setInputBox] = useState(false);
   const [fileName, setFileName] = useState(null);
+  const [destinationOutputBox, setDestinationOutput] = useState(false);
+  const [input, setInput] = useState(null);
   const execute = useRef(null);
 
   var ref = useRef({
@@ -74,69 +76,76 @@ function App() {
   }, [activeNav, search, utilities]);
 
 
-  function config(a, b, c, d, e, f) {
+  function config(a, b, c, d, e, f, g, h) {
     setSourceInput(a);
     setShowMeasureOptions(b);
     setShowFileOrFolderOption(c);
     setShowLimitOption(d);
     setInputBox(e);
     setDestinationInput(f);
+    setDestinationOutput(g);
+    setInput(h);
   }
 
   const openUtility = (utility) => {
+
     const util = utility.title.toLowerCase();
-
-
-
     switch (util) {
       case "size":
-        config(true, true, true, false, false, false);
+        config(true, true, true, false, false, false, false, false);
         break;
 
       case "tree":
-        config(true, false, false, false, false, false);
+        config(true, false, false, false, false, false, false, false);
         setFileType("folder");
         break;
 
       case "top files":
-        config(true, true, false, true, false, false);
+        config(true, true, false, true, false, false, false, false);
         setFileType("folder");
         break;
 
-
       case "segregation":
-        config(true, false, false, false, false, true);
+        config(true, false, false, false, false, true, false, false);
         setFileType("folder");
         break;
 
       case "remove duplicate files":
-        config(true, false, false, false, false, false);
+        config(true, false, false, false, false, false, false, false);
         setFileType("folder");
         break;
 
       case "move":
-        config(true, false, true, false, false, true);
+        config(true, false, true, false, false, true, false, false);
         setFileType("folder");
         break;
 
-
       case "create":
-        config(false, false, false, false, true, true);
+        config(false, false, false, false, true, true, false, false);
         setFileType("folder");
         break;
 
       case "properties":
-        config(true, false, true, false, false, false);
+        config(true, false, true, false, false, false, false, false);
         setFileType("folder");
         break;
 
       case "statistics":
-        config(true, false, false, false, false, false);
+        config(true, false, false, false, false, false, false, false);
         setFileType("folder");
         break;
 
-      default:
+      case "compression":
+        config(true, false, true, false, false, false, true, true);
 
+        break;
+
+      case "decompression":
+        config(true, false, false, false, false, false, true, false);
+        setFileType("file");
+        break;
+
+      default:
         break;
     }
 
@@ -185,6 +194,7 @@ function App() {
       alert("Error occurred, try again later.")
       return;
     }
+    setLoader(false);
     setOutput(result.output);
     setRunning(false);
     setRunError(result.error);
@@ -194,12 +204,14 @@ function App() {
     setFileName(null);
     ref.current.path = "D:\\";
     dest.current.path = "C:\\";
-    setLoader(false);
     setExecutionStatus("Run Utility");
     execute.current.disabled = false;
+    setDestinationOutput(false);
+    setInput(false);
   }
 
   const executeUtility = async (utility) => {
+
 
     setExecutionStatus("Running..");
     execute.current.disabled = true;
@@ -403,6 +415,48 @@ function App() {
           setLoader(false);
         }
         break;
+      case "compression":
+        if (!path || !fileName || !destination) {
+          alert("Enter all details correctly");
+          return;
+        }
+        setLoader(true);
+        try {
+          setLoadingMessage("Squashing in progress, please wait !");
+          setRunning(true);
+          let args = ["-squash", path, fileName, destination];
+          activityCommand = ["filekit", ...args].join(" ");
+          const result = await window.electronAPI.issueFileKitCommand(args);
+          executionHelper(result);
+        }
+        catch (error) {
+          // console.log(error);
+          status = "Suspended";
+          setLoader(false);
+        }
+        alert("Squashing completed successfully.")
+        break;
+      case "decompression":
+        if (!path || !destination) {
+          alert("Enter all details correctly");
+          return;
+        }
+        setLoader(true);
+        try {
+          setLoadingMessage("De-Squashing in progress, please wait !");
+          setRunning(true);
+          let args = ["-desquash", path, destination];
+          activityCommand = ["filekit", ...args].join(" ");
+          const result = await window.electronAPI.issueFileKitCommand(args);
+          executionHelper(result);
+        }
+        catch (error) {
+          // console.log(error);
+          status = "Suspended";
+          setLoader(false);
+        }
+        alert("De-Squashing completed successfully.")
+        break;
       default:
         break;
     }
@@ -511,7 +565,7 @@ function App() {
           <div className="hero-content">
             <div className="hero-badge">
               <span className="hero-badge-dot" />
-              FileKit 1.0
+              FileKit 1.0.1
             </div>
 
             <h3>
@@ -687,6 +741,35 @@ function App() {
                     </div>
                   </div>
                 }
+
+                {input && <div>
+                  <label htmlFor="source-path">Squash filename</label>
+
+                  <div className="input-shell">
+                    <input
+                      id="source-path"
+                      type="text"
+                      placeholder="Filename"
+                      onChange={(e) => setFileName(e.target.value.trim())}
+                    />
+
+                  </div>
+                </div>}
+
+                {destinationOutputBox && <div>
+                  <label htmlFor="source-path">Destination source path</label>
+
+                  <div className="input-shell">
+                    <input
+                      id="source-path"
+                      type="text"
+                      value={dest.current?.path}
+                    />
+
+                    <button onClick={() => browseDestFolder(selectedUtility)} type="button">Browse</button>
+                  </div>
+                </div>}
+
               </div>
 
               <div className="field-row">
@@ -712,6 +795,7 @@ function App() {
                 }
 
               </div>
+
               {
                 destinationInput &&
                 <div className="inps">
@@ -727,6 +811,8 @@ function App() {
                   </div>
                 </div>
               }
+
+
 
 
               <button ref={execute} onClick={() => executeUtility(selectedUtility)} className="run-button" type="button">

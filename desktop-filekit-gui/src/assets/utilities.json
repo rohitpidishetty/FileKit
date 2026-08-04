@@ -70,5 +70,21 @@
     "icon": "ⓘ",
     "category": "Analysis",
     "command": "java -jar FileKit.jar -stats \"C:\\Users\\Rohit\\Desktop\\Folder\\file.txt\""
+  },
+  {
+    "id": "compression",
+    "title": "Compression",
+    "description": "Compress file or folder into a single squashed file",
+    "icon": "▣",
+    "category": "Compression",
+    "command": "java -jar FileKit.jar -squash FILE_PATH NAME OUTPUT_PATH"
+  },
+  {
+    "id": "decompression",
+    "title": "Decompression",
+    "description": "Decompress squashed file into complete folders",
+    "icon": "◻",
+    "category": "Compression",
+    "command": "java -jar FileKit.jar -dequash SQUASH_FILE_PATH OUTPUT_PATH"
   }
 ]

@@ -1,4 +1,4 @@
-console.log("✅ FILEKIT RENDERER WEBPACK CONFIG LOADED");
+console.log("FILEKIT RENDERER WEBPACK CONFIG LOADED");
 
 module.exports = {
   module: {
