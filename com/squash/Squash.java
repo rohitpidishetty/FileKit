@@ -1,117 +1,150 @@
 package com.squash;
 
-import com.squash.compressor.engine.FileReader;
-import com.squash.compressor.engine.QueueBuilder;
-import com.squash.compressor.engine.TreeBuilder;
-import com.squash.compressor.engine.TreeNodeTuple;
-import com.squash.compressor.iterator.List;
-import com.squash.compressor.std_target_output.SquashFileWriter;
-import com.squash.decompressor.engine.SquashReader;
+import com.squash.compressor.engine.FileSquasher;
+import com.squash.decompressor.engine.FileDeSquasher;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.regex.Pattern;
 
 public class Squash {
 
-  public Squash(String[] args) {
-    // System.out.println("Called");
-    if (args.length == 0) {
-      System.out.println(
-        """
-        Enter the following command to compress
-        ./squash -compress ~\\folder-path target-name ~\\destination-path
+  private static String FILENAME_REGEX = "^[A-Za-z0-9 _()-]+$";
+  private static String PWD = ".";
+  private static String CLEAN = ".class";
 
-        To decompress
-        ./squash -decompress ~\\target-name.tar.sq ~\\destination-path
-        """
-      );
+  public Squash(String[] args) {
+    if (args.length == 0) showSquashUsage();
+
+    switch (args[0]) {
+      case "-squash":
+        if (args.length != 4) showSquashUsage();
+        File targetFilePath = new File(args[1]);
+        String squashFileName = args[2];
+        File squashOutputPath = new File(args[3]);
+        if (!targetFilePath.exists()) {
+          throwError("[ERROR] Intended file not found.");
+        }
+        if (!Pattern.matches(FILENAME_REGEX, squashFileName)) {
+          throwError("[ERROR] Invalid filename.");
+        }
+        if (squashOutputPath.getName().contains(".")) {
+          throwError("[ERROR] Invalid output file path.");
+        }
+        if (!squashOutputPath.exists()) squashOutputPath.mkdirs();
+        try (
+          FileOutputStream fos = new FileOutputStream(
+            new File(squashOutputPath, squashFileName.concat(".sq"))
+          );
+          DataOutputStream dos = new DataOutputStream(fos);
+        ) {
+          if (targetFilePath.isFile()) {
+            System.out.println("[INFO] Squashing File..");
+            /*
+             * File type:
+             * 0 = file
+             * 1 = directory
+             */
+            dos.writeByte(0);
+            FileSquasher.compress(
+              targetFilePath.getName(),
+              targetFilePath,
+              false,
+              dos
+            );
+          } else {
+            // DFS & -squash every file
+            System.out.println("[INFO] Squashing Files..");
+            dos.writeByte(1);
+            // System.out.println(Arrays.toString(targetFilePath.list()));
+            // System.exit(1);
+            FileSquasher.depthFirstSearchAllFilesAndCompress(
+              targetFilePath.getName(),
+              targetFilePath,
+              dos,
+              false
+            );
+          }
+        } catch (Exception e) {}
+
+        System.out.println("[INFO] Squashing completed.");
+
+        break;
+      case "-desquash":
+        if (args.length != 3) showSquashUsage();
+
+        File squashFile = new File(args[1]);
+        File outputPath = new File(args[2]);
+
+        if (!squashFile.exists() || !squashFile.isFile()) {
+          throwError("[ERROR] Squash file not found.");
+        }
+        if (outputPath.getName().contains(".")) {
+          throwError("[ERROR] Invalid output path.");
+        }
+        if (!outputPath.exists()) {
+          outputPath.mkdirs();
+        }
+        System.out.println("[INFO] DeSquashing..");
+        try (
+          FileInputStream fis = new FileInputStream(squashFile);
+          BufferedInputStream bis = new BufferedInputStream(fis);
+          DataInputStream dis = new DataInputStream(bis)
+        ) {
+          FileDeSquasher.decompress(dis, outputPath);
+        } catch (Exception e) {
+          e.printStackTrace();
+          throwError("[ERROR] Could not desquash file.");
+        }
+        System.out.println("[INFO] DeSquashing completed.");
+        break;
+      case "-clean":
+        cleanClassFiles(new File(PWD));
+        break;
+      default:
+        showSquashUsage();
+        break;
+    }
+  }
+
+  private static void showSquashUsage() {
+    System.err.println("Invalid arguments");
+    System.out.println(
+      """
+      java Squash -squash <file-path | folder> <squash-as-name> <output-path>
+      java Squash -desquash <squash-file> <output-path>
+
+      Example:
+      java Squash -squash "C:\\Users\\rohit\\Pictures\\Screenshots 1\\Screenshot 2025-12-29 000431.png" squashed "C:\\Users\\rohit\\Desktop"
+      java Squash -desquash "C:\\Users\\rohit\\OneDrive\\Desktop\\test\\pic.sq" "C:\\Users\\rohit\\OneDrive\\Desktop\\test\\x"
+      """
+    );
+    System.exit(1);
+  }
+
+  private static void throwError(String message) {
+    System.err.println(message);
+    System.exit(404);
+  }
+
+  public static void cleanClassFiles(File file) {
+    if (file.isFile()) {
+      if (file.getName().endsWith(CLEAN)) {
+        try {
+          Files.delete(Paths.get(file.getAbsolutePath()));
+        } catch (Exception e) {
+          System.out.println(
+            "IOException " + e.getCause().getLocalizedMessage()
+          );
+        }
+      }
       return;
     }
-    if (args[0].equals("-compress")) {
-      if (args.length != 4) {
-        System.out.println(
-          """
-          Enter the following command to compress
-          ./squash -compress ~\\folder-path target-name ~\\destination-path
-          """
-        );
-        return;
-      }
-      File dest = new File(args[3]);
-      if (!dest.isDirectory()) {
-        dest.mkdirs();
-      }
-      File file = new File(args[1]);
-      if (!file.exists()) {
-        System.err.printf(
-          "%s not found, make sure the path is valid\n",
-          args[1]
-        );
-        System.exit(1);
-      }
-      try {
-        String TARGET_FILE = args[2] + ".tar.sq";
-        File targetFile = new File(args[3], TARGET_FILE);
-
-        targetFile.createNewFile();
-
-        SquashFileWriter sqfw = new SquashFileWriter(targetFile, TARGET_FILE);
-        sqfw.commit_header();
-        String base_dir;
-        ArrayList<File> files = new List(
-          file,
-          base_dir = args[1] + "\\"
-        ).getFiles();
-
-        Map<Byte, String> embeddings = new TreeBuilder(
-          new QueueBuilder(files).getQueue()
-        ).generateEmbeddings();
-
-        int map_size = embeddings.size();
-        DataOutputStream dos = sqfw.getWriter();
-        dos.writeInt(map_size);
-        for (Map.Entry<Byte, String> em : embeddings.entrySet()) {
-          dos.writeByte(em.getKey());
-          dos.writeUTF(em.getValue());
-        }
-        new FileReader(
-          files,
-          base_dir = args[1] + "\\",
-          dos,
-          embeddings
-        ).mapEmbeddingsAndWriteToSquash();
-      } catch (Exception e) {
-        System.out.println(e.getMessage());
-      }
-    } else if (args[0].equals("-decompress")) {
-      if (args.length != 3) {
-        System.out.println(
-          """
-          Enter the following command to compress
-          ./squash -decompress ~\\target-name.tar.sq ~\\destination-path
-          """
-        );
-        return;
-      }
-      File sqFile = new File(args[1]);
-      if (!sqFile.exists()) {
-        System.err.printf("Squash file %s does not exist", args[1]);
-        System.exit(1);
-      }
-      try {
-        String[] folderTokens = sqFile.getName().split("[.]");
-
-        new SquashReader(sqFile).readAndWriteFile(
-          "unsquashed_" + folderTokens[0],
-          args[2]
-        );
-      } catch (Exception e) {
-        System.out.println(e.getLocalizedMessage());
-        System.exit(1);
-      }
-    }
+    for (File subFile : file.listFiles()) cleanClassFiles(subFile);
   }
 }

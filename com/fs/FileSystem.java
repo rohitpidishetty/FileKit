@@ -130,14 +130,14 @@ public class FileSystem {
             printUsage();
             System.exit(1);
           }
-          new Squash(new String[] { "-compress", args[1], args[2], args[3] });
+          new Squash(new String[] { "-squash", args[1], args[2], args[3] });
           break;
         case "-desquash":
           if (args.length != 3) {
             printUsage();
             System.exit(1);
           }
-          new Squash(new String[] { "-decompress", args[1], args[2] });
+          new Squash(new String[] { "-desquash", args[1], args[2] });
           break;
         case "-top":
           LargestFileCalculator larFileCal = new LargestFileCalculator();

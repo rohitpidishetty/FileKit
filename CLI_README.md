@@ -53,7 +53,7 @@ java -jar FileKit.jar -seg <source-directory> <destination-directory>
 #### Example
 
 ```bash
-java -jar FileKit.jar -seg "C:\Users\rohit\Desktop\GARUDA (Programming language development)" "C:\Users\rohit\Desktop\Seg"
+java -jar FileKit.jar -seg "C:\Users\<YourName>\Desktop\GARUDA (Programming language development)" "C:\Users\<YourName>\Desktop\Seg"
 ```
 
 ---
@@ -71,7 +71,7 @@ java -jar FileKit.jar -rmdf <source-directory>
 #### Example
 
 ```bash
-java -jar FileKit.jar -rmdf "C:\Users\rohit\Desktop\Folder"
+java -jar FileKit.jar -rmdf "C:\Users\<YourName>\Desktop\Folder"
 ```
 
 ---
@@ -89,7 +89,7 @@ java -jar FileKit.jar -tree <source-directory>
 #### Example
 
 ```bash
-java -jar FileKit.jar -tree "C:\Users\rohit\Desktop\Folder"
+java -jar FileKit.jar -tree "C:\Users\<YourName>\Desktop\Folder"
 ```
 
 ---
@@ -107,7 +107,7 @@ java -jar FileKit.jar -mv <source-directory> <destination-directory>
 #### Example
 
 ```bash
-java -jar FileKit.jar -mv "C:\Users\rohit\Desktop\A" "C:\Users\rohit\Desktop\B"
+java -jar FileKit.jar -mv "C:\Users\<YourName>\Desktop\A" "C:\Users\<YourName>\Desktop\B"
 ```
 
 ---
@@ -125,7 +125,7 @@ java -jar FileKit.jar -create <file-name> <destination-directory>
 #### Example
 
 ```bash
-java -jar FileKit.jar -create  "file.txt" "C:\\Users\\rohit\\Desktop\\Folder"
+java -jar FileKit.jar -create  "file.txt" "C:\\Users\\<YourName>\\Desktop\\Folder"
 ```
 
 ---
@@ -143,7 +143,7 @@ java -jar FileKit.jar -props <file-path>
 #### Example
 
 ```bash
-java -jar FileKit.jar -props "C:\\Users\\rohit\\Desktop\\Folder\\file.txt"
+java -jar FileKit.jar -props "C:\\Users\\<YourName>\\Desktop\\Folder\\file.txt"
 ```
 
 ---
@@ -155,15 +155,15 @@ Internally uses squash program to compress and decompress files
 #### Usage
 
 ```bash
-java -jar FileKit.jar -squash <file-path> <squashed-file-name>
-java -jar FileKit.jar -desquash <file-path>
+java -jar FileKit.jar -squash <file-path> <squashed-file-name> <squashed-output-path>
+java -jar FileKit.jar -desquash <file-path> <desquashed-output-path>
 ```
 
 #### Example
 
 ```bash
-java -jar FileKit.jar -squash "C:\\Users\\rohit\\Desktop\\Folder\\file.txt" "squashed"
-java -jar FileKit.jar -desquash "C:\\Users\\rohit\\Desktop\\Folder\\squashed.tar.sq"
+java -jar FileKit.jar -squash "D:\\Java" pgms "C:\\Users\\<YourName>\\Desktop"
+java -jar FileKit.jar -desquash "C:\\Users\\<YourName>\\Desktop\\pgms.sq" "C:\\Users\\<YourName>\\Desktop"
 ```
 ---
 
@@ -180,7 +180,7 @@ java -jar FileKit.jar -top <number> <folder-path> <-b|-kb|-mb|-gb> -path
 #### Example
 
 ```bash
-java -jar FileKit.jar -top 5 "C:\\Users\\rohit\\Desktop\\Folder" -mb -path
+java -jar FileKit.jar -top 5 "C:\\Users\\<YourName>\\Desktop\\Folder" -mb -path
 ```
 ---
 
@@ -197,7 +197,7 @@ java -jar FileKit.jar -stats <folder-path>
 #### Example
 
 ```bash
-java -jar FileKit.jar -stats "C:\\Users\\rohit\\Desktop\\Folder"
+java -jar FileKit.jar -stats "C:\\Users\\<YourName>\\Desktop\\Folder"
 ```
 ---
 
