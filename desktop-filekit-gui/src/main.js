@@ -73,42 +73,6 @@ ipcMain.handle("dialog:open", async (_event, type) => {
   return result.canceled ? null : result.filePaths[0];
 });
 
-// Development
-// ipcMain.handle("filekit:run", async (_event, args) => {
-
-//   const jarPath = getJarPath();
-
-
-//   return new Promise((resolve, reject) => {
-
-//     execFile(
-//       "java",
-//       [
-//         "-Dfile.encoding=UTF-8",
-//         "-Dstdout.encoding=UTF-8",
-//         "-Dstderr.encoding=UTF-8",
-//         "-jar",
-//         jarPath,
-//         ...args,
-//       ],
-//       { windowsHide: true },
-//       (error, stdout, stderr) => {
-//         if (error) {
-//           reject(new Error(stderr?.trim() || error.message));
-//           return;
-//         }
-
-//         resolve({
-//           output: stdout.trim(),
-//           error: stderr.trim(),
-//         });
-//       }
-//     );
-//   });
-// });
-
-
-// Production
 ipcMain.handle("filekit:run", async (_event, args = []) => {
   const jarPath = getJarPath();
   const javaPath = getJavaPath();
@@ -179,9 +143,7 @@ ipcMain.handle("read-file", async (_, filePath) => {
   return await fileSys.readFile(finalPath, "utf8");
 });
 
-
 // getPlatform: () => ipcRenderer.invoke("os:arch")
-
 
 ipcMain.handle("os:arch", () => {
   // console.log(process.platform)
@@ -214,8 +176,6 @@ function createSplash() {
 }
 
 function createWindow() {
-
-
   mainWindow = new BrowserWindow({
     width: 800,
     height: 800,

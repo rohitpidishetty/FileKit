@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./OutputConsole.css";
+import "../Styles/OutputConsole.css";
 import StorageChart from "./StorageChart";
 
 function OutputConsole({

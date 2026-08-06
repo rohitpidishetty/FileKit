@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
 import { useMemo, useState, useEffect } from "react";
-import "./App.css";
+import "./Styles/FileKit.css";
 import fileKitLogo from "./assets/FileKit.png";
 import tools from "./assets/utilities.json";
-import OutputConsole from "./OutputConsole";
-import WindowsLoader from "./WindowsLoader.jsx";
+import OutputConsole from "./JS/OutputConsole.jsx";
+import WindowsLoader from "./JS/WindowsLoader.jsx";
 
 
 const navItems = [
@@ -15,7 +15,7 @@ const navItems = [
   { id: "analysis", label: "Analysis", icon: "⌘" },
 ];
 
-function App() {
+export default function FileKit() {
 
   const [utilities, setUtilities] = useState(() => tools);
   const [executionStatus, setExecutionStatus] = useState("Run Utility");
@@ -47,6 +47,7 @@ function App() {
   const [destinationOutputBox, setDestinationOutput] = useState(false);
   const [input, setInput] = useState(null);
   const execute = useRef(null);
+  const [codeExecutionState, setExecutionState] = useState("Completed");
 
   var ref = useRef({
     path: "D:\\",
@@ -149,8 +150,6 @@ function App() {
         break;
     }
 
-
-
     setSelectedUtility(utility);
   };
 
@@ -210,18 +209,24 @@ function App() {
     setInput(false);
   }
 
+  function throwError() {
+    setExecutionState("Suspended");
+    setLoader(false);
+    alert("Oops!! some error occurred, please try again later.");
+  }
+
   const executeUtility = async (utility) => {
-
-
+    setExecutionState("Completed");
     setExecutionStatus("Running..");
+
     execute.current.disabled = true;
     let activityCommand = "";
     let activityTime = new Date().getTime();
     let activityName = utility.title;
-    let status = "Completed";
 
     const util = utility?.title?.toLowerCase();
     switch (util) {
+
       case "size":
         if (!path) {
           alert("Please specify the file or folder path.")
@@ -237,11 +242,10 @@ function App() {
           executionHelper(result);
         }
         catch (error) {
-          // console.log(error);
-          status = "Suspended";
-          setLoader(false);
+          throwError();
         }
         break;
+
       case "tree":
         if (!path) {
           alert("Please specify the file or folder path.")
@@ -256,11 +260,10 @@ function App() {
           executionHelper(result);
         }
         catch (error) {
-          // console.log(error);
-          status = "Suspended";
-          setLoader(false);
+          throwError();
         }
         break;
+
       case "top files":
         if (!path) {
           alert("Please specify the file or folder path.")
@@ -275,11 +278,10 @@ function App() {
           executionHelper(result);
         }
         catch (error) {
-          // console.log(error);
-          status = "Suspended";
-          setLoader(false);
+          throwError();
         }
         break;
+
       case "segregation":
         if (!path || !destination) {
           alert("Please specify the source & destination folder path.")
@@ -298,11 +300,10 @@ function App() {
           executionHelper(result);
         }
         catch (error) {
-          // console.log(error);
-          status = "Suspended";
-          setLoader(false);
+          throwError();
         }
         break;
+
       case "remove duplicate files":
         if (!path) {
           alert("Please specify the source folder path.")
@@ -320,11 +321,10 @@ function App() {
           executionHelper(result);
         }
         catch (error) {
-          // console.log(error);
-          status = "Suspended";
-          setLoader(false);
+          throwError();
         }
         break;
+
       case "move":
         if (!path || !destination) {
           alert("Please specify the source & destination folder path.")
@@ -342,11 +342,11 @@ function App() {
           alert("Transfer completed.");
         }
         catch (error) {
-          // console.log(error);
-          status = "Suspended";
-          setLoader(false);
+          throwError();
+          break;
         }
         break;
+
       case "create":
         if (!fileName || !destination) {
           alert("Please specify the file name & destination folder path.")
@@ -372,11 +372,11 @@ function App() {
           alert("File created.");
         }
         catch (error) {
-          // console.log(error);
-          status = "Suspended";
-          setLoader(false);
+          throwError();
+          break;
         }
         break;
+
       case "properties":
         if (!path) {
           alert("Please specify the file or folder path.")
@@ -391,11 +391,11 @@ function App() {
           executionHelper(result);
         }
         catch (error) {
-          // console.log(error);
-          status = "Suspended";
-          setLoader(false);
+          throwError();
+          break;
         }
         break;
+
       case "statistics":
         if (!path) {
           alert("Please specify the file or folder path.")
@@ -410,14 +410,19 @@ function App() {
           executionHelper(result);
         }
         catch (error) {
-          // console.log(error);
-          status = "Suspended";
-          setLoader(false);
+          throwError();
+          break;
         }
         break;
+
       case "compression":
         if (!path || !fileName || !destination) {
           alert("Enter all details correctly");
+          return;
+        }
+        const fileNameRegex = /^[A-Za-z0-9 _()-]+$/;
+        if (!fileNameRegex.test(fileName)) {
+          alert("File name can not contain dots(.) in it.")
           return;
         }
         setLoader(true);
@@ -430,12 +435,12 @@ function App() {
           executionHelper(result);
         }
         catch (error) {
-          // console.log(error);
-          status = "Suspended";
-          setLoader(false);
+          throwError();
+          break;
         }
         alert("Squashing completed successfully.")
         break;
+
       case "decompression":
         if (!path || !destination) {
           alert("Enter all details correctly");
@@ -451,24 +456,26 @@ function App() {
           executionHelper(result);
         }
         catch (error) {
-          // console.log(error);
-          status = "Suspended";
-          setLoader(false);
+          throwError();
+          break;
         }
         alert("De-Squashing completed successfully.")
         break;
+
       default:
         break;
     }
 
-    const activitySnapshot = {
-      command: activityCommand,
-      time: activityTime,
-      name: activityName,
-      status: status
-    }
+    activityQueue
+      .push(
+        {
+          command: activityCommand,
+          time: activityTime,
+          name: activityName,
+          status: codeExecutionState
+        }
+      );
 
-    activityQueue.push(activitySnapshot);
     if (activityQueue.length > 5)
       activityQueue.shift();
 
@@ -868,4 +875,3 @@ function App() {
   );
 }
 
-export default App;

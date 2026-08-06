@@ -1,4 +1,4 @@
-import "./WindowsLoader.css";
+import "../Styles/WindowsLoader.css";
 
 export default function WindowsLoader({
   text = "Loading...",

@@ -17,8 +17,8 @@ import {
 } from "recharts";
 
 import { useEffect, useState } from "react";
-import "./styles.css";
-import FileAnalyticsDashboard from "./Charts/FileAnalyticsDashboard";
+
+import FileAnalyticsDashboard from "./Charts/FileAnalyticsDashboard.jsx";
 
 
 
