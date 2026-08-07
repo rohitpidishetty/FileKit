@@ -215,11 +215,19 @@ export default function FileKit() {
     alert("Oops!! some error occurred, please try again later.");
   }
 
-  const executeUtility = async (utility) => {
-    setExecutionState("Completed");
-    setExecutionStatus("Running..");
+  function initiateRunningState() {
 
     execute.current.disabled = true;
+    setLoader(true);
+    setExecutionState("Completed");
+    setExecutionStatus("Running..");
+    setRunning(true);
+  }
+
+  const executeUtility = async (utility) => {
+    if (!utility) return;
+
+
     let activityCommand = "";
     let activityTime = new Date().getTime();
     let activityName = utility.title;
@@ -232,10 +240,8 @@ export default function FileKit() {
           alert("Please specify the file or folder path.")
           return;
         }
-        setLoader(true);
-
+        initiateRunningState();
         try {
-          setRunning(true);
           let args = ["-size", path, argsFormat(unit), "-json"];
           activityCommand = ["filekit", ...args].join(" ");
           const result = await window.electronAPI.issueFileKitCommand(args);
@@ -251,9 +257,8 @@ export default function FileKit() {
           alert("Please specify the file or folder path.")
           return;
         }
-        setLoader(true);
+        initiateRunningState();
         try {
-          setRunning(true);
           let args = ["-tree", path];
           activityCommand = ["filekit", ...args].join(" ");
           const result = await window.electronAPI.issueFileKitCommand(args);
@@ -269,9 +274,8 @@ export default function FileKit() {
           alert("Please specify the file or folder path.")
           return;
         }
-        setLoader(true);
+        initiateRunningState();
         try {
-          setRunning(true);
           let args = ["-top", limit, path, argsFormat(unit), "-path", "-json"];
           activityCommand = ["filekit", ...args].join(" ");
           const result = await window.electronAPI.issueFileKitCommand(args);
@@ -287,16 +291,12 @@ export default function FileKit() {
           alert("Please specify the source & destination folder path.")
           return;
         }
-        setLoader(true);
+        initiateRunningState();
         try {
           setLoadingMessage("File segregation in-progress, please wait !")
-          setRunning(true);
-
           let args = ["-seg", path, destination];
           activityCommand = ["filekit", ...args].join(" ");
           const result = await window.electronAPI.issueFileKitCommand(args);
-
-
           executionHelper(result);
         }
         catch (error) {
@@ -309,15 +309,12 @@ export default function FileKit() {
           alert("Please specify the source folder path.")
           return;
         }
-        setLoader(true);
+        initiateRunningState();
         try {
           setLoadingMessage("Removing duplicate files, please wait !");
-          setRunning(true);
-
           let args = ["-rmdf", path];
           activityCommand = ["filekit", ...args].join(" ");
           const result = await window.electronAPI.issueFileKitCommand(args);
-
           executionHelper(result);
         }
         catch (error) {
@@ -330,10 +327,9 @@ export default function FileKit() {
           alert("Please specify the source & destination folder path.")
           return;
         }
-        setLoader(true);
+        initiateRunningState();
         try {
           setLoadingMessage("Transferring files, please wait !");
-          setRunning(true);
           let args = ["-mv", path, destination];
           activityCommand = ["filekit", ...args].join(" ");
           const result = await window.electronAPI.issueFileKitCommand(args);
@@ -360,9 +356,10 @@ export default function FileKit() {
           alert("Invalid file name, please choose a proper file name");
           return;
         }
+
+        initiateRunningState();
         try {
           setLoadingMessage("Creating file, please wait !");
-          setRunning(true);
 
           let args = ["-create", fileName, destination];
           activityCommand = ["filekit", ...args].join(" ");
@@ -382,9 +379,9 @@ export default function FileKit() {
           alert("Please specify the file or folder path.")
           return;
         }
-        setLoader(true);
+        initiateRunningState();
         try {
-          setRunning(true);
+
           let args = ["-props", path];
           activityCommand = ["filekit", ...args].join(" ");
           const result = await window.electronAPI.issueFileKitCommand(args);
@@ -401,9 +398,8 @@ export default function FileKit() {
           alert("Please specify the file or folder path.")
           return;
         }
-        setLoader(true);
+        initiateRunningState();
         try {
-          setRunning(true);
           let args = ["-stats", path, "-json"];
           activityCommand = ["filekit", ...args].join(" ");
           const result = await window.electronAPI.issueFileKitCommand(args);
@@ -425,10 +421,9 @@ export default function FileKit() {
           alert("File name can not contain dots(.) in it.")
           return;
         }
-        setLoader(true);
+        initiateRunningState();
         try {
           setLoadingMessage("Squashing in progress, please wait !");
-          setRunning(true);
           let args = ["-squash", path, fileName, destination];
           activityCommand = ["filekit", ...args].join(" ");
           const result = await window.electronAPI.issueFileKitCommand(args);
@@ -446,10 +441,9 @@ export default function FileKit() {
           alert("Enter all details correctly");
           return;
         }
-        setLoader(true);
+        initiateRunningState();
         try {
           setLoadingMessage("De-Squashing in progress, please wait !");
-          setRunning(true);
           let args = ["-desquash", path, destination];
           activityCommand = ["filekit", ...args].join(" ");
           const result = await window.electronAPI.issueFileKitCommand(args);
@@ -822,7 +816,7 @@ export default function FileKit() {
 
 
 
-              <button ref={execute} onClick={() => executeUtility(selectedUtility)} className="run-button" type="button">
+              <button ref={execute} onClick={() => { executeUtility(selectedUtility); }} className="run-button" type="button">
                 <span>▶</span>
                 {executionStatus}
               </button>
