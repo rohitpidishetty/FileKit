@@ -248,21 +248,7 @@ java -jar FileKit.jar <command> [arguments]
 - Duplicate file detection
 - Directory tree generation
 - Disk usage analysis
-
----
-
-## Project Structure
-
-```text
-FileKit/
-├── com/
-│   └── fs/
-│       ├── FileSystem.java
-│       ├── FileSegregator.java
-│       └── ...
-├── FileKit.jar
-└── README.md
-```
+- Compress and de-compress files
 
 ---
 
@@ -277,19 +263,3 @@ FileKit/
 ## License
 
 This project is licensed under the GNU GENERAL PUBLIC LICENSE.
-
----
-
-## Recompiling Binaries
-
-```bash
-jar cfe FileKit.jar com.fs.FileSystem com
-```
-
-```text
-├── com/
-│   └── fs/
-│       ├── FileSystem.java
-│       ├── FileSegregator.java
-│       └── ...
-```
