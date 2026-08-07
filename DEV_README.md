@@ -46,14 +46,14 @@ jlink \
 ### GUI initiation
 * Move *runtime/* & *FileKit.jar* into
 ```bash
-desktop-filekit-gui
+desktop-filekit-gui/
 |
-|_resources
+|_resources/
   |
-  |_binaries
+  |_binaries/
   |   |_FileKit.jar
   |
-  |_runtime  
+  |_runtime/  
 ```
 * npm start
 * npm run make:win:arm64
