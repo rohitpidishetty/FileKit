@@ -57,3 +57,4 @@ desktop-filekit-gui/
 ```
 * npm start
 * npm run make:win:arm64
+* npm run make:[platform]:[chip]
