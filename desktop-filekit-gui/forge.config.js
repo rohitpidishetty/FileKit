@@ -55,18 +55,20 @@ module.exports = {
 
     {
       name: "@electron-forge/maker-zip",
-      platforms: ["darwin"],
+      platforms: ["linux", "darwin"],
     },
 
+    // ################ Remove these lines while running on linux ################
     {
       name: "@electron-forge/maker-deb",
       config: {},
     },
-
     {
       name: "@electron-forge/maker-rpm",
       config: {},
     },
+    // ##################################END######################################
+
   ],
 
   plugins: [
