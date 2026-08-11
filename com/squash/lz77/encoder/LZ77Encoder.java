@@ -4,6 +4,7 @@ import com.squash.huffman.encoder.CanonicalHuffmanEncoder;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

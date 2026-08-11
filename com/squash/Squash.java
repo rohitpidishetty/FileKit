@@ -12,11 +12,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.regex.Pattern;
 
-public class Squash {
+public final class Squash {
 
-  private static String FILENAME_REGEX = "^[A-Za-z0-9 _()-]+$";
-  private static String PWD = ".";
-  private static String CLEAN = ".class";
+  private static final String FILENAME_REGEX = "^[A-Za-z0-9 _()-]+$";
+  private static final String PWD = ".";
+  private static final String CLEAN = ".class";
 
   public Squash(String[] args) {
     if (args.length == 0) showSquashUsage();
@@ -43,6 +43,10 @@ public class Squash {
           );
           DataOutputStream dos = new DataOutputStream(fos);
         ) {
+          // ############### (VERSION CONFLICT) ##################
+          dos.writeUTF(com.squash.enums.SquashFormat.V2.getHeader());
+          dos.writeInt(com.squash.enums.SquashFormat.V2.getCurrentVersion());
+          // ############### (VERSION CONFLICT) ##################
           if (targetFilePath.isFile()) {
             System.out.println("[INFO] Squashing File..");
             /*
@@ -50,7 +54,7 @@ public class Squash {
              * 0 = file
              * 1 = directory
              */
-            dos.writeByte(0);
+            dos.writeByte(com.squash.enums.Files.FILE.getRootType());
             FileSquasher.compress(
               targetFilePath.getName(),
               targetFilePath,
@@ -60,7 +64,7 @@ public class Squash {
           } else {
             // DFS & -squash every file
             System.out.println("[INFO] Squashing Files..");
-            dos.writeByte(1);
+            dos.writeByte(com.squash.enums.Files.FOLDER.getRootType());
             // System.out.println(Arrays.toString(targetFilePath.list()));
             // System.exit(1);
             FileSquasher.depthFirstSearchAllFilesAndCompress(
@@ -83,6 +87,9 @@ public class Squash {
 
         if (!squashFile.exists() || !squashFile.isFile()) {
           throwError("[ERROR] Squash file not found.");
+        }
+        if (!squashFile.getName().endsWith(".sq")) {
+          throwError("[ERROR] Unexpected file format.");
         }
         if (outputPath.getName().contains(".")) {
           throwError("[ERROR] Invalid output path.");
@@ -120,8 +127,8 @@ public class Squash {
       java Squash -desquash <squash-file> <output-path>
 
       Example:
-      java Squash -squash "C:\\Users\\rohit\\Pictures\\Screenshots 1\\Screenshot 2025-12-29 000431.png" squashed "C:\\Users\\rohit\\Desktop"
-      java Squash -desquash "C:\\Users\\rohit\\OneDrive\\Desktop\\test\\pic.sq" "C:\\Users\\rohit\\OneDrive\\Desktop\\test\\x"
+      java Squash -squash "C:\\Users\\<YourName>\\Pictures\\Screenshots 1\\Image.png" squashed "C:\\Users\\<YourName>\\Desktop"
+      java Squash -desquash "C:\\Users\\<YourName>\\OneDrive\\Desktop\\test\\pic.sq" "C:\\Users\\<YourName>\\OneDrive\\Desktop\\test"
       """
     );
     System.exit(1);
