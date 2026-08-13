@@ -20,6 +20,23 @@
               "type": "zip (156 MB)"
             }
           ]
+        },
+        {
+          "version": "1.0.1",
+          "releases": [
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.1/Filekit-1.0.1-full-winOS-x64.nupkg",
+              "type": "nupkg (151 MB)"
+            },
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.1/FileKit-1.0.1-Setup-winOS-x64.exe",
+              "type": "exe (153 MB)"
+            },
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.1/Filekit-1.0.1-winOS-x64.zip",
+              "type": "zip (156 MB)"
+            }
+          ]
         }
       ],
       "arm64": [
@@ -37,6 +54,23 @@
             {
               "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.0/filekit-arm64-winOS.zip",
               "type": "zip (156 MB)"
+            }
+          ]
+        },
+        {
+          "version": "1.0.1",
+          "releases": [
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.1/Filekit-1.0.1-full-winOS-arm64.nupkg",
+              "type": "nupkg (148 MB)"
+            },
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.1/FileKit-1.0.1-Setup-winOS-arm64.exe",
+              "type": "exe (149 MB)"
+            },
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.1/Filekit-1.0.1-winOS-arm64.zip",
+              "type": "zip (153 MB)"
             }
           ]
         }
@@ -60,6 +94,19 @@
               "type": "zip (138 MB)"
             }
           ]
+        },
+        {
+          "version": "1.0.1",
+          "releases": [
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.1/Filekit-1.0.1-linux-x64.tar.gz",
+              "type": "tar.gz (139 MB)"
+            },
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.1/Filekit-1.0.1-linux-x64.zip",
+              "type": "zip (139 MB)"
+            }
+          ]
         }
       ]
     }
@@ -68,7 +115,7 @@
     "title": "macOS",
     "description": "macOS Monterey or later",
     "binaries": {
-      "arm64": [
+      "intel64": [
         {
           "version": "1.0.0",
           "releases": [
@@ -79,6 +126,34 @@
             {
               "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.0/filekit-darwin-x64-macOS.zip",
               "type": "zip darwin (135 MB)"
+            }
+          ]
+        },
+        {
+          "version": "1.0.1",
+          "releases": [
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.1/Filekit-1.0.1-darwin-x64.zip",
+              "type": "zip (367 MB)"
+            },
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.1/Filekit-darwin-x64-1.0.1.zip",
+              "type": "zip darwin (134 MB)"
+            }
+          ]
+        }
+      ],
+      "arm64": [
+        {
+          "version": "1.0.1",
+          "releases": [
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.1/Filekit-darwin-arm64-1.0.1.zip",
+              "type": "zip (132 MB)"
+            },
+            {
+              "url": "https://github.com/rohitpidishetty/FileKit/releases/download/v1.0.1/Filekit-1.0.1-darwin-arm64.zip",
+              "type": "zip darwin (362 MB)"
             }
           ]
         }
