@@ -65,7 +65,7 @@ function Main() {
               </div>
 
               <span className="preview-title">FileKit</span>
-              <span className="preview-version">v1.0.0</span>
+              <span className="preview-version">v1.0.1</span>
             </div>
 
             <div className="preview-image-wrapper">
