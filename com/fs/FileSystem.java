@@ -193,24 +193,24 @@ public class FileSystem {
           java -jar FileKit.jar -mv <source-file> <destination-folder>
           java -jar FileKit.jar -create <file-name> <destination-directory>
           java -jar FileKit.jar -props <file-path>
-          java -jar FileKit.jar -squash <file-path> <squashed-file-name>
-          java -jar FileKit.jar -desquash <file-path>
+          java -jar FileKit.jar -squash <file-path> <squashed-file-name> <output-path>
+          java -jar FileKit.jar -desquash <squashed-file-path> <output-path>
           java -jar FileKit.jar -top <number> <folder-path> <-b|-kb|-mb|-gb> -path
           java -jar FileKit.jar -stats <folder-path>
 
       Examples:
-          java -jar FileKit.jar -size "C:\\Users\\Rohit\\Desktop\\test.txt" -mb
-          java -jar FileKit.jar -size "C:\\Users\\Rohit\\Desktop" -gb
-          java -jar FileKit.jar -seg "C:\\Users\\Rohit\\Downloads" "C:\\Users\\Rohit\\SortedFiles"
-          java -jar FileKit.jar -rmdf "C:\\Users\\Rohit\\Folder"
-          java -jar FileKit.jar -tree "C:\\Users\\Rohit\\Folder"
-          java -jar FileKit.jar -mv  "C:\\Users\\rohit\\Desktop\\a.exe" "C:\\Users\\rohit\\Desktop\\Folder"
-          java -jar FileKit.jar -create "file.txt" "C:\\Users\\rohit\\Desktop\\Folder"
-          java -jar FileKit.jar -props "C:\\Users\\rohit\\Desktop\\Folder\\file.txt"
-          java -jar FileKit.jar -squash "C:\\Users\\rohit\\Desktop\\Folder\\file.txt" "squashed"
-          java -jar FileKit.jar -desquash "C:\\Users\\rohit\\Desktop\\Folder\\squashed.tar.sq"
-          java -jar FileKit.jar -top 5 "C:\\Users\\rohit\\Desktop\\Folder" -mb -path
-          java -jar FileKit.jar -stats "C:\\Users\\rohit\\Desktop\\Folder"
+          java -jar FileKit.jar -size "C:\\Users\\<YourName>\\Desktop\\test.txt" -mb
+          java -jar FileKit.jar -size "C:\\Users\\<YourName>\\Desktop" -gb
+          java -jar FileKit.jar -seg "C:\\Users\\<YourName>\\Downloads" "C:\\Users\\<YourName>\\SortedFiles"
+          java -jar FileKit.jar -rmdf "C:\\Users\\<YourName>\\Folder"
+          java -jar FileKit.jar -tree "C:\\Users\\<YourName>\\Folder"
+          java -jar FileKit.jar -mv  "C:\\Users\\<YourName>\\Desktop\\a.exe" "C:\\Users\\<YourName>\\Desktop\\Folder"
+          java -jar FileKit.jar -create "file.txt" "C:\\Users\\<YourName>\\Desktop\\Folder"
+          java -jar FileKit.jar -props "C:\\Users\\<YourName>\\Desktop\\Folder\\file.txt"
+          java -jar FileKit.jar -squash "C:\\Users\\<YourName>\\Desktop\\Folder\\file.txt" "squashed" "C:\\Users\\<YourName>\\Desktop"
+          java -jar FileKit.jar -desquash "C:\\Users\\<YourName>\\Desktop\\Folder\\squashed.sq"
+          java -jar FileKit.jar -top 5 "C:\\Users\\<YourName>\\Desktop\\Folder" -mb -path
+          java -jar FileKit.jar -stats "C:\\Users\\<YourName>\\Desktop\\Folder"
       """
     );
   }
